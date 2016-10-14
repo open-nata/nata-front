@@ -6,13 +6,13 @@ import {ModuleWithProviders} from '@angular/core';
 
 import {Routes,RouterModule} from '@angular/router';
 
-import {ProjectsComponent} from 'projects.component';
-import {DevicesComponent} from 'devices.component';
+import {ProjectsComponent} from './projects.component';
+import {DevicesComponent} from './devices.component';
 
 const appRoutes:Routes = [
     {
         path: '',
-        redirectTo: '/project',
+        redirectTo: '/projects',
         pathMatch: 'full'
     },
     {

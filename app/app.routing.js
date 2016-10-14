@@ -3,12 +3,12 @@
  */
 "use strict";
 var router_1 = require('@angular/router');
-var projects_component_1 = require('projects.component');
-var devices_component_1 = require('devices.component');
+var projects_component_1 = require('./projects.component');
+var devices_component_1 = require('./devices.component');
 var appRoutes = [
     {
         path: '',
-        redirectTo: '/project',
+        redirectTo: '/projects',
         pathMatch: 'full'
     },
     {

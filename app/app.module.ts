@@ -16,7 +16,10 @@ import {routing } from './app.routing';
     imports : [BrowserModule,
         routing
     ],
-    declarations:[AppComponent],
+    declarations:[AppComponent,
+        DevicesComponent,
+        ProjectsComponent
+    ],
     provides:[
 
     ],
