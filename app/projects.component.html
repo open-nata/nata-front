@@ -8,15 +8,15 @@
                     </div>
                     <div class="panel-body">
                         <div class="col-md-4">
-                            <a href="#" class="thumbnail">
+                            <div class="thumbnail" (click)="createProject()">
                                 <img src="/images/project-default.png" alt="default.png" style="height: 150px;width: 500px;">
-                            </a>
+                            </div>
                         </div>
                         <div *ngFor="let element of p">
                             <div class="col-md-4">
-                                <a href="#" class="thumbnail">
+                                <div class="thumbnail">
                                     <img src="/images/zhihu.png" alt="logo" style="height: 150px;width: 500px;">
-                                </a>
+                                </div>
                             </div>
                         </div>
                     </div>

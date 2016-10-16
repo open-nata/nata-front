@@ -16,7 +16,11 @@ var platform_browser_1 = require('@angular/platform-browser');
 var app_component_1 = require("./app.component");
 var devices_component_1 = require('./devices.component');
 var projects_component_1 = require('./projects.component');
-//Route
+var create_project_component_1 = require('./create-project.component');
+var apk_manager_component_1 = require('./apk-manager.component');
+var edit_script_component_1 = require('./edit-script.component');
+var runner_component_1 = require('./runner.component');
+//Route for the module
 var app_routing_1 = require('./app.routing');
 var AppModule = (function () {
     function AppModule() {
@@ -28,9 +32,12 @@ var AppModule = (function () {
             ],
             declarations: [app_component_1.AppComponent,
                 devices_component_1.DevicesComponent,
-                projects_component_1.ProjectsComponent
+                projects_component_1.ProjectsComponent,
+                create_project_component_1.CreateProjectComponent,
+                apk_manager_component_1.ApkManagerComponent,
+                edit_script_component_1.EditScriptComponent,
+                runner_component_1.RunnerComponent
             ],
-            provides: [],
             bootstrap: [app_component_1.AppComponent]
         }), 
         __metadata('design:paramtypes', [])

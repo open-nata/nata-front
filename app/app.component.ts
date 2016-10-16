@@ -12,5 +12,10 @@ import {Component} from '@angular/core';
 export class AppComponent{
     title = 'NATA';
 
-
+    changeDisplay():void{
+        if(document.getElementById("changeDisplay").className === "glyphicon glyphicon-th-list")
+            document.getElementById("changeDisplay").className = "glyphicon glyphicon-th-large";
+        else
+            document.getElementById("changeDisplay").className = "glyphicon glyphicon-th-list";
+    }
 }

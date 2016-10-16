@@ -9,28 +9,21 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 /**
- * Created by ghj on 16-10-10.
+ * Created by ghj on 16-10-16.
  */
 var core_1 = require('@angular/core');
-var AppComponent = (function () {
-    function AppComponent() {
-        this.title = 'NATA';
+var RunnerComponent = (function () {
+    function RunnerComponent() {
     }
-    AppComponent.prototype.changeDisplay = function () {
-        if (document.getElementById("changeDisplay").className === "glyphicon glyphicon-th-list")
-            document.getElementById("changeDisplay").className = "glyphicon glyphicon-th-large";
-        else
-            document.getElementById("changeDisplay").className = "glyphicon glyphicon-th-list";
-    };
-    AppComponent = __decorate([
+    RunnerComponent = __decorate([
         core_1.Component({
             moduleId: module.id,
-            selector: 'my-app',
-            templateUrl: 'app.component.html'
+            selector: 'runner',
+            templateUrl: 'runner.component.html'
         }), 
         __metadata('design:paramtypes', [])
-    ], AppComponent);
-    return AppComponent;
+    ], RunnerComponent);
+    return RunnerComponent;
 }());
-exports.AppComponent = AppComponent;
-//# sourceMappingURL=app.component.js.map
+exports.RunnerComponent = RunnerComponent;
+//# sourceMappingURL=runner.component.js.map

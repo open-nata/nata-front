@@ -9,28 +9,21 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 /**
- * Created by ghj on 16-10-10.
+ * Created by ghj on 16-10-16.
  */
 var core_1 = require('@angular/core');
-var AppComponent = (function () {
-    function AppComponent() {
-        this.title = 'NATA';
+var EditScriptComponent = (function () {
+    function EditScriptComponent() {
     }
-    AppComponent.prototype.changeDisplay = function () {
-        if (document.getElementById("changeDisplay").className === "glyphicon glyphicon-th-list")
-            document.getElementById("changeDisplay").className = "glyphicon glyphicon-th-large";
-        else
-            document.getElementById("changeDisplay").className = "glyphicon glyphicon-th-list";
-    };
-    AppComponent = __decorate([
+    EditScriptComponent = __decorate([
         core_1.Component({
             moduleId: module.id,
-            selector: 'my-app',
-            templateUrl: 'app.component.html'
+            selector: 'edit-script',
+            templateUrl: 'edit-script.component.html'
         }), 
         __metadata('design:paramtypes', [])
-    ], AppComponent);
-    return AppComponent;
+    ], EditScriptComponent);
+    return EditScriptComponent;
 }());
-exports.AppComponent = AppComponent;
-//# sourceMappingURL=app.component.js.map
+exports.EditScriptComponent = EditScriptComponent;
+//# sourceMappingURL=edit-script.component.js.map

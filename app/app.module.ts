@@ -8,8 +8,12 @@ import {BrowserModule} from '@angular/platform-browser';
 import {AppComponent} from "./app.component";
 import {DevicesComponent} from './devices.component';
 import {ProjectsComponent} from './projects.component';
+import {CreateProjectComponent} from './create-project.component';
+import {ApkManagerComponent} from './apk-manager.component';
+import {EditScriptComponent} from './edit-script.component';
+import {RunnerComponent} from './runner.component';
 
-//Route
+//Route for the module
 import {routing } from './app.routing';
 
 @NgModule({
@@ -18,10 +22,11 @@ import {routing } from './app.routing';
     ],
     declarations:[AppComponent,
         DevicesComponent,
-        ProjectsComponent
-    ],
-    provides:[
-
+        ProjectsComponent,
+        CreateProjectComponent,
+        ApkManagerComponent,
+        EditScriptComponent,
+        RunnerComponent
     ],
     bootstrap:[AppComponent]
 })

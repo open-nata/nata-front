@@ -22,6 +22,9 @@ var ProjectsComponent = (function () {
     }
     ProjectsComponent.prototype.ngOnInit = function () {
     };
+    ProjectsComponent.prototype.createProject = function () {
+        this.router.navigate(['/createProject']);
+    };
     ProjectsComponent = __decorate([
         core_1.Component({
             moduleId: module.id,

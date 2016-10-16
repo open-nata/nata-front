@@ -25,4 +25,8 @@ export class ProjectsComponent implements OnInit{
     ngOnInit():void{
 
     }
+
+    createProject():void{
+        this.router.navigate(['/createProject']);
+    }
 }
