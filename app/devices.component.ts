@@ -17,7 +17,13 @@ export class DevicesComponent implements  OnInit{
 
     p = [1,2,3,4,5,6,7,8,9,10,11];
 
+    seletedP:number;
+
     ngOnInit():void{
 
+    }
+
+    showDetail(ele:number):void{
+        this.seletedP = ele;
     }
 }

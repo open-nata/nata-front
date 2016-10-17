@@ -5,7 +5,7 @@
  * Created by ghj on 16-10-14.
  */
 import {Component,OnInit} from '@angular/core';
-import {Router} from '@angular/router';
+import {Router,Params} from '@angular/router';
 
 import {Location} from '@angular/common';
 
@@ -18,12 +18,11 @@ import {Location} from '@angular/common';
 
 export class CreateProjectComponent implements  OnInit{
     constructor(
-        private router :Router,
+        private router:Router,
         private location:Location
     ){}
 
     ngOnInit():void{
-
     }
 
     hello():void{
@@ -31,6 +30,6 @@ export class CreateProjectComponent implements  OnInit{
     }
 
     back():void{
-        this.location.back();
+        this.router.navigate(['/projects']);
     }
 }

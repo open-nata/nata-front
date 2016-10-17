@@ -27,7 +27,7 @@ var CreateProjectComponent = (function () {
     CreateProjectComponent.prototype.hello = function () {
     };
     CreateProjectComponent.prototype.back = function () {
-        this.location.back();
+        this.router.navigate(['/projects']);
     };
     CreateProjectComponent = __decorate([
         core_1.Component({

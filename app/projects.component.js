@@ -23,6 +23,9 @@ var ProjectsComponent = (function () {
     ProjectsComponent.prototype.createProject = function () {
         this.router.navigate(['/createProject']);
     };
+    ProjectsComponent.prototype.gotoProjectDetail = function (ele) {
+        this.router.navigate(['/apkManager', ele]);
+    };
     ProjectsComponent = __decorate([
         core_1.Component({
             moduleId: module.id,

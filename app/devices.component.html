@@ -10,7 +10,6 @@
                     <h3 style="text-align: center">设备总数</h3>
                 </div>
             </div>
-
             <div class="col-md-3">
                 <div class="panel panel-default">
                     <h3 style="color: royalblue;text-align: center ">
@@ -39,7 +38,16 @@
                         </h3>
                     </div>
                     <div class = "panel-body">
-
+                        <div *ngFor="let ele of p">
+                            <div class="col-md-3" (click)="showDetail(ele)">
+                                <div class="thumbnail">
+                                    <img src="images/zte.jpg" alt="device-png">
+                                    <div style="text-align: center;color: #337ab7" class="caption">
+                                        中兴手机{{ele}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -51,7 +59,46 @@
                         </h3>
                     </div>
                     <div class="panel-body">
-
+                        <div>
+                            <label>DeviceID:</label>
+                            xxxxx{{seletedP}}
+                        </div>
+                        <div>
+                            <label>设备名称:</label>
+                            中兴手机{{seletedP}}
+                        </div>
+                        <div>
+                            <label>Android版本:</label>
+                            {{seletedP}}的安卓版本
+                        </div>
+                        <div>
+                            <label>SDK版本:</label>
+                            {{seletedP}}的SDK版本
+                        </div>
+                        <div>
+                            <label>分辨率:</label>
+                            {{seletedP}}的分辨率
+                        </div>
+                        <div>
+                            <label>CPU型号:</label>
+                            {{seletedP}}的cpu型号
+                        </div>
+                        <div>
+                            <label>出厂商:</label>
+                            {{seletedP}}的出厂商
+                        </div>
+                        <div>
+                            <label>设备状态:</label>
+                            Busy
+                        </div>
+                        <div>
+                            <div class="thumbnail">
+                                <img src="images/zte.jpg" alt="device-png">
+                                <div style="text-align: center;color: #337ab7" class="caption">
+                                    中兴手机{{seletedP}}
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

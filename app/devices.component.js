@@ -20,6 +20,9 @@ var DevicesComponent = (function () {
     }
     DevicesComponent.prototype.ngOnInit = function () {
     };
+    DevicesComponent.prototype.showDetail = function (ele) {
+        this.seletedP = ele;
+    };
     DevicesComponent = __decorate([
         core_1.Component({
             moduleId: module.id,
