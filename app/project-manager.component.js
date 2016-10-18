@@ -14,8 +14,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var router_1 = require('@angular/router');
 var common_1 = require('@angular/common');
-var ApkManagerComponent = (function () {
-    function ApkManagerComponent(route, location) {
+var ProjectManagerComponent = (function () {
+    function ProjectManagerComponent(route, location) {
         this.route = route;
         this.location = location;
         this.version = '2.3.1';
@@ -26,43 +26,50 @@ var ApkManagerComponent = (function () {
         this.startPage = 0;
         this.allPage = this.versions.length / 4;
         this.versionDisplay = this.versions.slice(0, 4);
+        this.testplan = false;
     }
-    ApkManagerComponent.prototype.prePage = function () {
+    ProjectManagerComponent.prototype.displayTestPlan = function () {
+        this.testplan = true;
+    };
+    ProjectManagerComponent.prototype.displayApkManager = function () {
+        this.testplan = false;
+    };
+    ProjectManagerComponent.prototype.prePage = function () {
         if (this.startPage > 0) {
             this.startPage--;
         }
     };
-    ApkManagerComponent.prototype.nextPage = function () {
+    ProjectManagerComponent.prototype.nextPage = function () {
         if (this.startPage + 5 > this.allPage)
             return;
         this.startPage++;
     };
-    ApkManagerComponent.prototype.getVersions = function (currentPage) {
+    ProjectManagerComponent.prototype.getVersions = function (currentPage) {
         //Each page display 4 apks
         var index = (currentPage - 1) * 4;
         this.versionDisplay = this.versions.slice(index, index + 4);
     };
-    ApkManagerComponent.prototype.selectVersion = function (v) {
+    ProjectManagerComponent.prototype.selectVersion = function (v) {
         this.version = v;
     };
-    ApkManagerComponent.prototype.ngOnInit = function () {
+    ProjectManagerComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.route.params.forEach(function (params) {
             _this.name = params['name'];
         });
     };
-    ApkManagerComponent.prototype.back = function () {
+    ProjectManagerComponent.prototype.back = function () {
         this.location.back();
     };
-    ApkManagerComponent = __decorate([
+    ProjectManagerComponent = __decorate([
         core_1.Component({
             moduleId: module.id,
-            selector: 'apk-manager',
-            templateUrl: 'apk-manager.component.html'
+            selector: 'project-manager',
+            templateUrl: 'project-manager.component.html'
         }), 
         __metadata('design:paramtypes', [router_1.ActivatedRoute, common_1.Location])
-    ], ApkManagerComponent);
-    return ApkManagerComponent;
+    ], ProjectManagerComponent);
+    return ProjectManagerComponent;
 }());
-exports.ApkManagerComponent = ApkManagerComponent;
-//# sourceMappingURL=apk-manager.component.js.map
+exports.ProjectManagerComponent = ProjectManagerComponent;
+//# sourceMappingURL=project-manager.component.js.map

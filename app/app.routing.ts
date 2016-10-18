@@ -9,7 +9,7 @@ import {Routes,RouterModule} from '@angular/router';
 import {ProjectsComponent} from './projects.component';
 import {DevicesComponent} from './devices.component';
 import {CreateProjectComponent} from './create-project.component';
-import {ApkManagerComponent} from './apk-manager.component';
+import {ProjectManagerComponent} from './project-manager.component';
 import {EditScriptComponent} from './edit-script.component';
 import {RunnerComponent} from './runner.component';
 
@@ -32,8 +32,8 @@ const appRoutes:Routes = [
         component:CreateProjectComponent
     },
     {
-        path:'apkManager/:name',
-        component:ApkManagerComponent
+        path:'projectManager/:name',
+        component:ProjectManagerComponent
     },
     {
         path:'editScript/:name',

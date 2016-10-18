@@ -1,9 +1,7 @@
 /**
  * Created by ghj on 16-10-15.
  */
-/**
- * Created by ghj on 16-10-14.
- */
+
 import {Component,OnInit} from '@angular/core';
 import {Router,Params} from '@angular/router';
 

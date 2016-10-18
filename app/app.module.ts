@@ -9,7 +9,7 @@ import {AppComponent} from "./app.component";
 import {DevicesComponent} from './devices.component';
 import {ProjectsComponent} from './projects.component';
 import {CreateProjectComponent} from './create-project.component';
-import {ApkManagerComponent} from './apk-manager.component';
+import {ProjectManagerComponent} from './project-manager.component';
 import {EditScriptComponent} from './edit-script.component';
 import {RunnerComponent} from './runner.component';
 
@@ -24,7 +24,7 @@ import {routing } from './app.routing';
         DevicesComponent,
         ProjectsComponent,
         CreateProjectComponent,
-        ApkManagerComponent,
+        ProjectManagerComponent,
         EditScriptComponent,
         RunnerComponent
     ],

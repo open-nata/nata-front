@@ -6,7 +6,7 @@ var router_1 = require('@angular/router');
 var projects_component_1 = require('./projects.component');
 var devices_component_1 = require('./devices.component');
 var create_project_component_1 = require('./create-project.component');
-var apk_manager_component_1 = require('./apk-manager.component');
+var project_manager_component_1 = require('./project-manager.component');
 var edit_script_component_1 = require('./edit-script.component');
 var runner_component_1 = require('./runner.component');
 var appRoutes = [
@@ -28,8 +28,8 @@ var appRoutes = [
         component: create_project_component_1.CreateProjectComponent
     },
     {
-        path: 'apkManager/:name',
-        component: apk_manager_component_1.ApkManagerComponent
+        path: 'projectManager/:name',
+        component: project_manager_component_1.ProjectManagerComponent
     },
     {
         path: 'editScript/:name',

@@ -17,7 +17,7 @@ var app_component_1 = require("./app.component");
 var devices_component_1 = require('./devices.component');
 var projects_component_1 = require('./projects.component');
 var create_project_component_1 = require('./create-project.component');
-var apk_manager_component_1 = require('./apk-manager.component');
+var project_manager_component_1 = require('./project-manager.component');
 var edit_script_component_1 = require('./edit-script.component');
 var runner_component_1 = require('./runner.component');
 //Route for the module
@@ -34,7 +34,7 @@ var AppModule = (function () {
                 devices_component_1.DevicesComponent,
                 projects_component_1.ProjectsComponent,
                 create_project_component_1.CreateProjectComponent,
-                apk_manager_component_1.ApkManagerComponent,
+                project_manager_component_1.ProjectManagerComponent,
                 edit_script_component_1.EditScriptComponent,
                 runner_component_1.RunnerComponent
             ],

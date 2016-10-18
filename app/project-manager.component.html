@@ -1,0 +1,119 @@
+<div id="project-manager">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-offset-1 col-md-10">
+                <div class = "panel panel-default panel-info">
+                    <div class="panel-heading">
+                        <h2 class="panel-title">{{name}}
+                            <span style="margin-left: 20px" class="dropdown">
+                                <button  style="color: dodgerblue" class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
+                                    {{version}}
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                                    <li *ngFor="let v of versions" role="presentation" (click)="selectVersion(v)"><a role="menuitem" tabindex="-1" (click)="selectVersion(v)">{{v}}</a></li>
+                                </ul>
+                            </span>
+                            <span style="margin-left: 40px" class="btn-group">
+                                <button type="button" class="btn btn-default" (click)="displayTestPlan()">
+                                    <span class="glyphicon glyphicon-time"></span>
+                                    测试计划
+                                </button>
+                                <button type="button" class="btn btn-default"  (click)="displayApkManager()">
+                                    <span class="glyphicon glyphicon-open"></span>
+                                    Apk管理
+                                </button>
+
+                            </span>
+                            <span>
+                                <button type="button" class="btn btn-default pull-right">
+                                    <span class="glyphicon glyphicon-cog"></span>
+                                    项目设置
+                                </button>
+                            </span>
+                        </h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Apk Manager-->
+        <div *ngIf="!testplan" class="row">
+            <div class="col-md-offset-1 col-md-10">
+                <div class = "panel panel-default">
+                    <div class="panel-heading">
+                        <h2 class="panel-title">Apk列表</h2>
+                    </div>
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th style="margin-left: 30px">
+                                日期
+                            </th>
+                            <th>
+                                项目名称
+                            </th>
+                            <th>
+                                版本
+                            </th>
+                            <th>
+                                描述
+                            </th>
+                            <th>
+                                操作
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody *ngFor="let element of versionDisplay">
+                        <tr>
+                            <th style="margin-left: 30px">
+                                2016-1-3
+                            </th>
+                            <th>
+                                知乎
+                            </th>
+                            <th style="color: dodgerblue">
+                                {{element}}
+                            </th>
+                            <th>
+                                {{element}}
+                            </th>
+                            <th>
+                                <span style="color: dodgerblue" class="btn btn-default">下载</span>
+                                <span style="color: red" class="btn btn-default">删除</span>
+                            </th>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <nav>
+                        <ul class="pagination">
+                            <li><a (click)="prePage()">&laquo;</a></li>
+                            <li><a (click)="getVersions(startPage+1)">{{startPage+1}}</a></li>
+                            <li><a (click)="getVersions(startPage+2)">{{startPage+2}}</a></li>
+                            <li><a (click)="getVersions(startPage+3)">{{startPage+3}}</a></li>
+                            <li><a (click)="getVersions(startPage+4)">{{startPage+4}}</a></li>
+                            <li><a (click)="getVersions(startPage+5)">{{startPage+5}}</a></li>
+                            <li><a (click)="nextPage()">&raquo;</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+
+        <!-- Test Plan: begin-->
+        <div *ngIf="testplan" class="row">
+            <div class="col-md-offset-1 col-md-10">
+                <div class="col-md-3">
+                    测试计划
+                </div>
+                <div class="col-md-3">
+                    用例列表
+                </div>
+                <div class="col-md-４">
+                    运行列表
+                </div>
+            </div>
+        </div>
+        <!-- Test Plan: end-->
+    </div>
+</div>

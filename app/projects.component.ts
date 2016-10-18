@@ -29,6 +29,6 @@ export class ProjectsComponent implements OnInit{
     }
 
     gotoProjectDetail(ele:string):void{
-        this.router.navigate(['/apkManager',ele]);
+        this.router.navigate(['/projectManager',ele]);
     }
 }

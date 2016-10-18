@@ -24,7 +24,7 @@ var ProjectsComponent = (function () {
         this.router.navigate(['/createProject']);
     };
     ProjectsComponent.prototype.gotoProjectDetail = function (ele) {
-        this.router.navigate(['/apkManager', ele]);
+        this.router.navigate(['/projectManager', ele]);
     };
     ProjectsComponent = __decorate([
         core_1.Component({

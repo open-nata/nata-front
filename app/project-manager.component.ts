@@ -8,11 +8,11 @@ import {Location} from '@angular/common';
 
 @Component({
     moduleId:module.id,
-    selector:'apk-manager',
-    templateUrl:'apk-manager.component.html'
+    selector:'project-manager',
+    templateUrl:'project-manager.component.html'
 })
 
-export class ApkManagerComponent{
+export class ProjectManagerComponent{
     constructor(
         private route:ActivatedRoute,
         private location:Location
@@ -29,6 +29,14 @@ export class ApkManagerComponent{
     startPage = 0;
     allPage = this.versions.length/4;
     versionDisplay = this.versions.slice(0,4);
+
+    testplan = false;
+    displayTestPlan():void{
+        this.testplan = true;
+    }
+    displayApkManager():void{
+        this.testplan = false;
+    }
 
     prePage():void{
         if(this.startPage > 0){
