@@ -30,6 +30,13 @@ export class ProjectManagerComponent{
     allPage = this.versions.length/4;
     versionDisplay = this.versions.slice(0,4);
 
+    //For Test Plan
+    testPlanList = ['Monkey压测','脚本测试','进化测试'];
+    selectedPlan = this.testPlanList[0];
+    sampleList = ['测试用例','测试用例二','登录成功','1000次'];
+    selectedSample = this.sampleList[0];
+    runnerList = ['1','2','3','4','5'];
+
     testplan = false;
     displayTestPlan():void{
         this.testplan = true;
@@ -48,6 +55,7 @@ export class ProjectManagerComponent{
             return;
         this.startPage ++;
     }
+
     getVersions(currentPage:number):void{
         //Each page display 4 apks
         let index = (currentPage -1)*4;
@@ -58,12 +66,26 @@ export class ProjectManagerComponent{
         this.version = v;
     }
 
+    selectTestplan(s):void{
+        document.getElementById(this.selectedPlan).className = "list-group-item";
+        this.selectedPlan = s;
+        document.getElementById(s).className = "list-group-item active";
+    }
+
+    selectSample(s):void{
+        document.getElementById(this.selectedSample).className = "list-group-item";
+        this.selectedSample = s;
+        document.getElementById(s).className = "list-group-item active";
+    }
+
     ngOnInit():void{
         this.route.params.forEach((params: Params) => {
             this.name = params['name'];
         });
     }
 
+    addTestPlan():void{
+    }
     back():void{
         this.location.back();
     }
