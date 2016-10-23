@@ -16,6 +16,6 @@ export class AppComponent{
         if(document.getElementById("changeDisplay").className === "glyphicon glyphicon-th-list")
             document.getElementById("changeDisplay").className = "glyphicon glyphicon-th-large";
         else
-            document.getElementById("changeDisplay").className = "glyphicon glyphicon-th-list";
+            document.getElementById("changeDisplay").className = "glyphicon glyphicon-list";
     }
 }

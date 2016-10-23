@@ -8,8 +8,10 @@
                     </div>
                     <div class="panel-body">
                         <div class="col-md-4">
-                            <div class="thumbnail" (click)="createProject()">
-                                <img src="/images/project-default.png" alt="default.png" style="height: 150px;width: 500px;">
+                            <div class="thumbnail">
+                                <a href="#modal_createProject" data-toggle="modal">
+                                    <img src="/images/project-default.png" alt="default.png" style="height: 150px;width: 500px;">
+                                </a>
                             </div>
                         </div>
                         <div *ngFor="let element of p">
@@ -21,6 +23,58 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 添加新项目对话框-->
+<div id="modal_createProject" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">新建项目</h4>
+            </div>
+            <div class="modal-body">
+                <form id="addTestPlan" class="form-horizontal">
+                    <div class="form-group">
+                        <label for="name" class="col-sm-3 control-label">
+                            项目名称
+                        </label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="name">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="describe">
+                            项目描述
+                        </label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control"  id="describe">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="manager">
+                            负责人员
+                        </label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="manager">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="label">
+                            上传封面
+                        </label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="label">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="createProject()">立即创建</button>
             </div>
         </div>
     </div>

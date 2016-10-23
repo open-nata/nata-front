@@ -8,9 +8,10 @@ import {Routes,RouterModule} from '@angular/router';
 
 import {ProjectsComponent} from './projects.component';
 import {DevicesComponent} from './devices.component';
-import {CreateProjectComponent} from './create-project.component';
 import {ProjectManagerComponent} from './project-manager.component';
 import {EditScriptComponent} from './edit-script.component';
+
+import {RunnerListComponent} from './runner-list.component';
 import {RunnerComponent} from './runner.component';
 
 const appRoutes:Routes = [
@@ -28,16 +29,16 @@ const appRoutes:Routes = [
         component:DevicesComponent
     },
     {
-        path:'createProject',
-        component:CreateProjectComponent
-    },
-    {
         path:'projectManager/:name',
         component:ProjectManagerComponent
     },
     {
         path:'editScript/:name',
         component:EditScriptComponent
+    },
+    {
+        path:'runner-list',
+        component:RunnerListComponent
     },
     {
         path:'runner/:name',

@@ -1,0 +1,104 @@
+<div id="runner-list">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-offset-1 col-md-10">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="panel-title">
+                            运行列表
+                            <button style="margin-left: 80%;width: 50px" type="button" class="btn btn-success">R</button>
+                            Running
+                            <button style="width: 50px" type="button" class="btn btn-Warning">S</button>
+                            Stop
+                        </div>
+                    </div>
+                    <div class="panel-body">
+
+                        <table class="table table-hover">
+                            <thead>
+                            <tr>
+                                <th>
+                                    状态
+                                </th>
+                                <th>
+                                    日期
+                                </th>
+                                <th>
+                                    额外参数
+                                </th>
+                                <th>
+                                    设备
+                                </th>
+                                <th>
+                                    操作
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody *ngFor="let runner of list">
+                            <tr>
+                                <th>
+                                    <div *ngIf="runner=='S'">
+                                        <button type="button" class="btn btn-Warning">S</button>
+                                    </div>
+                                    <div *ngIf="runner=='R'">
+                                        <button type="button" class="btn btn-success">R</button>
+                                    </div>
+                                </th>
+                                <th>
+                                    2016-06-01
+                                </th>
+                                <th>
+                                    -s 1000...
+                                </th>
+                                <th>
+                                    <span class="label label-info">三星Note7</span>
+                                </th>
+                                <th>
+                                    <div *ngIf="runner=='S'">
+                                        <button type="button" class="btn btn-info">结果</button>
+
+                                            <button type="button" class="btn btn-danger">
+                                                <a href="#modal_delete" data-toggle="modal">
+                                                删除</a>
+                                            </button>
+
+                                    </div>
+                                    <div *ngIf="runner=='R'">
+                                        <button type="button" class="btn btn-info" (click)="gotoDetail(runner)">查看运行</button>
+                                        <button type="button" class="btn btn-warning">停止</button>
+                                    </div>
+                                </th>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--删除按钮-->
+<div id="modal_delete" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4>删除</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    <span class="btn btn-lg">
+                        <span id="changeDisplay" class="glyphicon glyphicon-warning-sign"></span>
+                    </span>
+                    此操作将永久删除文件，是否继续？
+                </p>
+                <button style="margin-left: 80%" type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">确定</button>
+            </div>
+        </div>
+    </div>
+</div>

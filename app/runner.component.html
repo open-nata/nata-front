@@ -1,1 +1,49 @@
-<h2>Runner</h2>
+<div id="runner">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-offset-1 col-md-3">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">三星Ｎote</h3>
+                    </div>
+                    <div class="panel-body">
+                        <canvas id="canvas-device" width="360" height="640"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="panel">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">控制台</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div style="margin-left: 30px" class="btn-group">
+                            <button style="width: 120px" type="button" class="btn btn-default" (click)="displayTestPlan()">
+                                唤醒
+                            </button>
+                            <button style="width: 120px" type="button" class="btn btn-default "  (click)="displayApkManager()">
+                                暂停
+                            </button>
+                            <button style="width: 120px" type="button" class="btn btn-default"  (click)="displayApkManager()">
+                                取消
+                            </button>
+                        </div>
+                        <div class="panel">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">运行过程</h3>
+                    </div>
+                    <div class="panel-body">
+                        Hello
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
