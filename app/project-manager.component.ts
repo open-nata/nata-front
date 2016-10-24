@@ -31,11 +31,17 @@ export class ProjectManagerComponent{
     versionDisplay = this.versions.slice(0,4);
 
     //For Test Plan
-    testPlanList = ['Monkey压测','脚本测试','进化测试'];
+    testPlanList = ['Monkey','脚本测试','进化测试','其他测试'];
     selectedPlan = this.testPlanList[0];
     sampleList = ['测试用例','测试用例二','登录成功','1000次'];
     selectedSample = this.sampleList[0];
     runnerList = ['1','2','3','4','5'];
+
+    //For Edit or Config
+    editConfig = true;
+    selectActive(flag:boolean):void{
+        this.editConfig = flag;
+    }
 
     testplan = false;
     displayTestPlan():void{
@@ -86,6 +92,7 @@ export class ProjectManagerComponent{
 
     addTestPlan():void{
     }
+
     back():void{
         this.location.back();
     }

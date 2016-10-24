@@ -1,46 +1,61 @@
 <div id="runner">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-offset-1 col-md-3">
+            <!-- For Minicap Display-->
+            <div class="col-md-4">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title">三星Ｎote</h3>
                     </div>
                     <div class="panel-body">
-                        <canvas id="canvas-device" width="360" height="640"></canvas>
+                        <canvas style="background-color: #adadad" id="canvas-device" width="360" height="640"></canvas>
                     </div>
                 </div>
             </div>
-            <div class="col-md-3">
-                <div class="panel">
+            <div class="col-md-5">
+                <div style="border-color: #d4d4d4" class="panel">
                     <div class="panel-heading">
                         <h3 class="panel-title">控制台</h3>
                     </div>
                     <div class="panel-body">
                         <div style="margin-left: 30px" class="btn-group">
-                            <button style="width: 120px" type="button" class="btn btn-default" (click)="displayTestPlan()">
+                            <button style="width: 100px" type="button" class="btn btn-primary" >
                                 唤醒
                             </button>
-                            <button style="width: 120px" type="button" class="btn btn-default "  (click)="displayApkManager()">
+                            <button style="width: 100px" type="button" class="btn btn-default" >
                                 暂停
                             </button>
-                            <button style="width: 120px" type="button" class="btn btn-default"  (click)="displayApkManager()">
+                            <button style="width: 100px" type="button" class="btn btn-default" >
                                 取消
                             </button>
                         </div>
-                        <div class="panel">
-
+                    </div>
+                </div>
+                <div style="border-color: #d4d4d4" class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="panel-title">
+                            <ul class="nav nav-pills" role="tablist">
+                                <li role="presentation" [ngClass]="{'active': selected=='１'}"><a (click)="selectActive('１')">统计</a></li>
+                                <li role="presentation" [ngClass]="{'active': selected=='２'}"><a (click)="selectActive('２')">树形图</a></li>
+                                <li role="presentation" [ngClass]="{'active': selected=='３'}"><a (click)="selectActive('３')">Crash</a></li>
+                                <li role="presentation" [ngClass]="{'active': selected=='４'}"><a (click)="selectActive('４')">Exception</a></li>
+                                <li role="presentation" [ngClass]="{'active': selected=='５'}"><a (click)="selectActive('５')">Logs</a></li>
+                            </ul>
                         </div>
+                    </div>
+                    <div class="panel-body">
+                        <canvas id="canvas-result" width="360" height="490"></canvas>
                     </div>
                 </div>
             </div>
+
             <div class="col-md-3">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title">运行过程</h3>
                     </div>
                     <div class="panel-body">
-                        Hello
+                        <canvas style="background-color: #adadad" id="canvas-runner" width="260" height="640"></canvas>
                     </div>
                 </div>
             </div>
