@@ -13,6 +13,7 @@ import {ProjectManagerComponent} from './project-manager.component';
 import {EditScriptComponent} from './edit-script.component';
 import {RunnerListComponent} from './runner-list.component';
 import {RunnerComponent} from './runner.component';
+import {ResultComponent} from './result.component';
 
 //Route for the module
 import {routing } from './app.routing';
@@ -27,7 +28,8 @@ import {routing } from './app.routing';
         ProjectManagerComponent,
         EditScriptComponent,
         RunnerListComponent,
-        RunnerComponent
+        RunnerComponent,
+        ResultComponent
     ],
     bootstrap:[AppComponent]
 })

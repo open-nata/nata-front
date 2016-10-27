@@ -13,6 +13,7 @@ import {EditScriptComponent} from './edit-script.component';
 
 import {RunnerListComponent} from './runner-list.component';
 import {RunnerComponent} from './runner.component';
+import {ResultComponent} from './result.component';
 
 const appRoutes:Routes = [
     {
@@ -43,6 +44,10 @@ const appRoutes:Routes = [
     {
         path:'runner/:name',
         component:RunnerComponent
+    },
+    {
+        path:'result',
+        component:ResultComponent
     }
 
 ];
