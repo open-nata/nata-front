@@ -4,6 +4,7 @@
 
 import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
+import {HttpModule} from '@angular/http';
 
 import {AppComponent} from "./app.component";
 import {DevicesComponent} from './devices.component';
@@ -18,9 +19,13 @@ import {ResultComponent} from './result.component';
 //Route for the module
 import {routing } from './app.routing';
 
+//Services for the module
+import {DeviceService} from './service/device.service';
+
 @NgModule({
     imports : [BrowserModule,
-        routing
+        routing,
+        HttpModule
     ],
     declarations:[AppComponent,
         DevicesComponent,
@@ -31,6 +36,7 @@ import {routing } from './app.routing';
         RunnerComponent,
         ResultComponent
     ],
+    providers:[DeviceService],
     bootstrap:[AppComponent]
 })
 

@@ -1,17 +1,12 @@
-/**
- * Created by ghj on 16-10-14.
- */
-
+/*Device类的定义*/
 
 export class Device{
-    id:number;
-    deviceId:string;
+    id:string;
     name:string;
-    androidVersion:string;
-    sdkVersion:string;
-    display:string;
-    cpu:string;
-    productor:string;
-
-    isbusy:boolean;
+    android_version:string;
+    sdk_version:string;
+    resolution:string;
+    cpu_abi:string;
+    manufacturer:string;
+    create_at:Date
 }

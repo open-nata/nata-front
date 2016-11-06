@@ -1,3 +1,6 @@
+<div>
+    <button type="button" class="btn btn-default" (click)="get()" >HTTP GET</button>
+</div>
 <div id="devices">
     <div class="container-fluid">
         <div id="device-sum" class="row">
@@ -41,7 +44,7 @@
                         <div *ngFor="let ele of p">
                             <div class="col-md-3" (click)="showDetail(ele)">
                                 <div class="thumbnail">
-                                    <img src="images/zte.jpg" alt="device-png">
+                                    <img src="http://localhost:8080/images/zte.jpg" alt="device-png">
                                     <div style="text-align: center;color: #337ab7" class="caption">
                                         中兴手机{{ele}}
                                     </div>
@@ -105,3 +108,4 @@
         </div>
     </div>
 </div>
+

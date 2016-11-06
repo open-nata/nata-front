@@ -3,9 +3,8 @@
  */
 
 export class Project{
-    id:number;
     name:string;
     describe:string;
     manager:string;
-    imageSrc:string;
+    imageUrl:string;
 }
