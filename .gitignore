@@ -5,3 +5,4 @@ app/*.js
 app/*.map
 app/service/*js
 app/service/*map
+.idea
