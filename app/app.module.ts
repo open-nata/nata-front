@@ -2,7 +2,9 @@
  * Created by ghj on 16-10-10.
  */
 
+import './rxjs-extensions';
 import {NgModule} from '@angular/core';
+import {FormsModule} from '@angular/forms';
 import {BrowserModule} from '@angular/platform-browser';
 import {HttpModule} from '@angular/http';
 
@@ -16,6 +18,8 @@ import {RunnerListComponent} from './runner-list.component';
 import {RunnerComponent} from './runner.component';
 import {ResultComponent} from './result.component';
 
+import {FileSelectDirective} from 'ng2-file-upload';
+
 //Route for the module
 import {routing } from './app.routing';
 
@@ -24,6 +28,7 @@ import {DeviceService} from './service/device.service';
 
 @NgModule({
     imports : [BrowserModule,
+        FormsModule,
         routing,
         HttpModule
     ],
@@ -34,7 +39,8 @@ import {DeviceService} from './service/device.service';
         EditScriptComponent,
         RunnerListComponent,
         RunnerComponent,
-        ResultComponent
+        ResultComponent,
+        FileSelectDirective
     ],
     providers:[DeviceService],
     bootstrap:[AppComponent]

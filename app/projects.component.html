@@ -17,7 +17,8 @@
                         <div *ngFor="let element of p">
                             <div class="col-md-4" (click)="gotoProjectDetail('知乎')">
                                 <div class="thumbnail">
-                                    <img src="/images/zhihu.png" alt="logo" style="height: 150px;width: 500px;">
+                                    <!--<img src="/images/zhihu.png" alt="logo" style="height: 150px;width: 500px;">-->
+                                    <img src="http://localhost:8080/upload/hello3" alt="logo" style="height: 150px;width: 500px;">
                                 </div>
                             </div>
                         </div>
@@ -43,7 +44,7 @@
                             项目名称
                         </label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control" id="name">
+                            <input [(ngModel)]="createProject.name" [ngModelOptions]="{standalone: true}" type="text" class="form-control" id="name">
                         </div>
                     </div>
                     <div class="form-group">
@@ -51,7 +52,7 @@
                             项目描述
                         </label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control"  id="describe">
+                            <input [(ngModel)]="createProject.describe" [ngModelOptions]="{standalone: true}" type="text" class="form-control"  id="describe">
                         </div>
                     </div>
                     <div class="form-group">
@@ -59,22 +60,26 @@
                             负责人员
                         </label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control" id="manager">
+                            <input [(ngModel)]="createProject.manager" [ngModelOptions]="{standalone: true}" type="text" class="form-control" id="manager">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-3 control-label" for="label">
+                        <label class="col-sm-3 control-label" for="image">
                             上传封面
                         </label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control" id="label">
+                            <input type="file" ng2FileSelect [uploader]="uploader" id="image"/>
+                            <button type="button" class="btn btn-success btn-s"
+                                    (click)="upload()" [disabled]="!uploader.getNotUploadedItems().length">
+                                <span class="glyphicon glyphicon-upload"></span> 上传
+                            </button>
                         </div>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="createProject()">立即创建</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="upload()">立即创建</button>
             </div>
         </div>
     </div>

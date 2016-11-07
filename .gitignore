@@ -1,0 +1,7 @@
+*.log
+node_modules
+typings
+app/*.js
+app/*.map
+app/service/*js
+app/service/*map
