@@ -8,6 +8,9 @@ import {Testsample} from './test.sample';
 export class Testcast{
     testsample:Testsample;
     testcase:number;  //运行的编号
+    device:string;
+    isFinish:boolean;
+    create_at:Date;
     treeresult:string;  //path
     logresult:string;
     bugresult:string;

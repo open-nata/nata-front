@@ -6,6 +6,8 @@ import {Component,OnInit} from '@angular/core';
 import {ActivatedRoute,Params} from '@angular/router';
 import {Location} from '@angular/common';
 
+import {OnlineDevice} from './service/online-device';
+import {DeviceService} from './service/device.service';
 import {Testplan} from './service/testplan';
 import {Testsample} from './service/test.sample';
 import {TestplanService} from './service/testplan.service';
@@ -20,7 +22,8 @@ export class ProjectManagerComponent{
     constructor(
         private route:ActivatedRoute,
         private location:Location,
-        private testplanService:TestplanService
+        private testplanService:TestplanService,
+        private deviceService:DeviceService
     ){}
 
     /*数据结构*/
@@ -44,12 +47,15 @@ export class ProjectManagerComponent{
         name:'name',
         describe:'describe',
         manager:'ghj',
-
         config:'null',
         script:'null'
     }
 
     //在线设备列表
+    deviceList:OnlineDevice[];
+    selectedDevice:OnlineDevice;
+
+    //关联测试用例的测试运行实例
 
 
     //apkList
@@ -76,6 +82,9 @@ export class ProjectManagerComponent{
         /*Test sample*/
         if(this.selectedTestplan)
             this.getTestsample();
+
+        /*获取在线设备列表*/
+        this.getOnlineDevices();
     }
 
     /*获取测试计划*/
@@ -117,6 +126,22 @@ export class ProjectManagerComponent{
                 this.testsampleList.push(testsample);
             })
     }
+
+    /*更新一个测试用例，主要是添加config或者script的信息*/
+    updateTestsample():void{
+        /*选择设备　与　更新　测试用例*/
+        console.log('更新testsample')
+        console.log(this.selectedTestsample);
+        this.testplanService
+            .updateTestsample(this.selectedTestsample)
+        this.selectDevice();
+    }
+
+    /*删除一个测试用例*/
+    deleteTestsample():void{
+        console.log("删除一个测试用例");
+    }
+
     /*选择测试计划*/
     selectTestplan(testplan:Testplan):void{
         console.log(this.selectedTestplan);
@@ -128,15 +153,37 @@ export class ProjectManagerComponent{
     }
     /*选择测试用例*/
     selectTestsample(testsample:Testsample):void{
-        console.log(this.selectedTestsample);
         if(this.selectedTestsample)
             document.getElementById(`sample${this.selectedTestsample.name}`).className = "list-group-item";
         this.selectedTestsample = testsample;
         document.getElementById(`sample${testsample.name}`).className = "list-group-item active";
+        console.log(this.selectedTestsample);
+
+        this.selectedDevice = null;
     }
 
+    /*获取在线设备列表*/
+    getOnlineDevices():void{
+        this.deviceService
+            .getOnlineDevices()
+            .then(response => this.deviceList = response);
+    }
 
+    /*选择设备*/
+    selectDevice():void{
+        const selectdevice = document.getElementById('selectDevice') as HTMLSelectElement;
+        const selectedIndex = selectdevice.selectedIndex;
+        console.log(selectedIndex);
+        this.selectedDevice = this.deviceList[selectedIndex];
+    }
 
+    /*建立一次运行*/
+    createTestcase():void{
+        console.log("创建一个运行实例");
+
+    }
+
+    /**/
     version = '2.3.1';
     versions= ['v4.1','2.3.0','2.3.1','2.3.2','2.3.3','2.3.4','2.3.5',
         '2.4.0','2.4.1','2.4.2','2.4.3','2.4.4','2.4.5',
@@ -148,10 +195,10 @@ export class ProjectManagerComponent{
     versionDisplay = this.versions.slice(0,4);
 
 
-    //For Edit or Config
-    editConfig = true;
-    selectActive(flag:boolean):void{
-        this.editConfig = flag;
+    /*控制页面:config,edit,history*/
+    controlNav :string = 'config';
+    selectNav(select:string):void{
+        this.controlNav = select;
     }
 
     testplan = false;

@@ -59,6 +59,17 @@ export class TestplanService{
             .then(res => res.json())
             .catch(this.handleError)
     }
+
+    /*更新一个测试用例*/
+    updateTestsample(testsample:Testsample){
+        const _url = `${this.url}/api/testsample`;
+        return this.http
+            .put(_url,JSON.stringify(testsample),{headers:this.headers})
+            .toPromise()
+            .then(()=>testsample)
+            .catch(this.handleError)
+    }
+
     /*错误处理*/
     private handleError(error:any):Promise<any>{
         console.error('An error occurred', error);

@@ -148,43 +148,45 @@
                         <div class="panel-heading">
                             <h3 class="panel-title">
                                 <ul class="nav nav-pills" role="tablist">
-                                    <li role="presentation" [ngClass]="{'active': editConfig}"><a (click)="selectActive(true)">配置运行</a></li>
-                                    <li role="presentation" [ngClass]="{'active': !editConfig}"><a (click)="selectActive(false)">编辑脚本</a></li>
+                                    <li role="presentation" [ngClass]="{'active': controlNav=='config'}"><a (click)="selectNav('config')">配置运行</a></li>
+                                    <li role="presentation" [ngClass]="{'active': controlNav=='edit'}"><a (click)="selectNav('edit')">编辑脚本</a></li>
+                                    <li role="presentation" [ngClass]="{'active': controlNav=='history'}"><a (click)="selectNav('history')">查看历史</a></li>
                                 </ul>
                             </h3>
                         </div>
                         <div class="panel-body">
-                            <div *ngIf="editConfig">
+                            <div *ngIf="controlNav=='config'">
                                 <h3 *ngIf="selectedTestsample">{{selectedTestsample.name}}运行配置</h3>
                                 <form class="form-horizontal" role="form">
-                                    <div class="form-group col-md-offset-1 col-md-10">
+                                    <div *ngIf="selectedTestsample" class="form-group col-md-offset-1 col-md-10">
                                         <label for="config" class="control-label">运行参数</label>
-                                        <input type="text" class="form-control" id="config" placeholder="monkey">
+                                        <input [(ngModel)]="selectedTestsample.config" [ngModelOptions]="{standalone: true}"type="text" class="form-control" id="config" placeholder="monkey">
                                     </div>
                                     <div class="form-group col-md-offset-1 col-md-10">
-                                        <label >运行参数</label>
-                                        <select class="form-control">
-                                            <option>三星</option>
-                                            <option>华为</option>
-                                            <option>中兴</option>
-                                            <option>小米</option>
-                                            <option>iPhone</option>
+                                        <label >选择设备</label>
+                                        <select class="form-control" id="selectDevice">
+                                            <option *ngFor="let item of deviceList" id="item.id">{{item.id}}</option>
                                         </select>
+
+                                    </div>
+                                    <div *ngIf="selectedDevice" class="form-group col-md-offset-1 col-md-10">
+                                        <label >完整参数(检查)</label>
+                                        <h4>adb shell -s {{selectedDevice.id}} monkey {{selectedTestsample.config}}</h4>
                                     </div>
                                     <div class="form-group col-md-offset-1 col-md-10">
-                                        <button type="button" class="btn btn-default">
-                                            取消
+                                        <button type="button" class="btn btn-default" (click)="updateTestsample()">
+                                            保存
                                         </button>
-                                        <button type="button" class="btn btn-primary">
-                                            确定
+                                        <button type="button" class="btn btn-primary" (click)="createTestcase()">
+                                            运行
                                         </button>
-                                        <button type="button" class="btn btn-danger">
+                                        <button type="button" class="btn btn-danger" (click)="deleteTestsample()">
                                             删除
                                         </button>
                                     </div>
                                 </form>
                             </div>
-                            <div *ngIf="!editConfig">
+                            <div *ngIf="controlNav=='edit'">
                                 <h3>{{selectedSample}}编辑脚本</h3>
                                 <form id="form-edit">
                                     <div class="form-group">
@@ -196,13 +198,27 @@
                                         <textarea class="form-control" rows="15" id="actions">
                                         </textarea>
                                     </div>
-
                                 </form>
                                 <button id="btn-save" class="btn btn-default">保存
                                 </button>
                                 <button id="btn-confirm" class="btn btn-primary">运行
                                 </button>
                             </div>
+                            <div *ngIf="controlNav=='history'">
+                                <h3>{{selectedSample}}编辑脚本</h3>
+                                <form id="form-edit2">
+                                    <div class="form-group">
+                                        <label for="nameEdit">用例描述</label>
+                                        <input type="text" class="form-control" id="nameEdit2">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="actions2">动作</label>
+                                        <textarea class="form-control" rows="15" id="actions2">
+                                        </textarea>
+                                    </div>
+                                </form>
+                            </div>
+
                         </div>
                     </div>
                 </div>
