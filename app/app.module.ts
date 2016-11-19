@@ -25,6 +25,8 @@ import {routing } from './app.routing';
 
 //Services for the module
 import {DeviceService} from './service/device.service';
+import {ProjectService} from './service/project.service';
+import {TestplanService} from './service/testplan.service';
 
 @NgModule({
     imports : [BrowserModule,
@@ -42,7 +44,10 @@ import {DeviceService} from './service/device.service';
         ResultComponent,
         FileSelectDirective
     ],
-    providers:[DeviceService],
+    providers:[DeviceService,
+        ProjectService,
+        TestplanService
+    ],
     bootstrap:[AppComponent]
 })
 

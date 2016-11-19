@@ -1,19 +1,10 @@
 <div id="project-manager">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-offset-1 col-md-9">
+            <div class="col-md-offset-1 col-md-10">
                 <div class = "panel panel-default ">
                     <div class="panel-heading">
-                        <h2 class="panel-title">{{name}}
-                            <span style="margin-left: 20px" class="dropdown">
-                                <button  style="color: dodgerblue" class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
-                                    {{version}}
-                                    <span class="caret"></span>
-                                </button>
-                                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-                                    <li *ngFor="let v of versions" role="presentation" (click)="selectVersion(v)"><a role="menuitem" tabindex="-1" (click)="selectVersion(v)">{{v}}</a></li>
-                                </ul>
-                            </span>
+                        <h2 class="panel-title">{{projectName}}
                             <span style="margin-left: 40px" class="btn-group">
                                 <button type="button" class="btn btn-default" (click)="displayTestPlan()">
                                     <span class="glyphicon glyphicon-time"></span>
@@ -23,7 +14,6 @@
                                     <span class="glyphicon glyphicon-open"></span>
                                     Apk管理
                                 </button>
-
                             </span>
                             <span>
                                 <button type="button" class="btn btn-default pull-right">
@@ -39,7 +29,7 @@
 
         <!-- Apk Manager-->
         <div *ngIf="!testplan" class="row">
-            <div class="col-md-offset-1 col-md-9">
+            <div class="col-md-offset-1 col-md-10">
                 <div class = "panel panel-default">
                     <div class="panel-heading">
                         <h2 class="panel-title">Apk列表</h2>
@@ -108,17 +98,28 @@
                 <div class="col-md-3">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <h3 class="panel-title">
+                            <h2 class="panel-title">
                                 测试计划
-                                <a href="#modal_addTestPlan" data-toggle="modal" style="color: dodgerblue" class="glyphicon glyphicon-plus pull-right"></a>
-                            </h3>
+                            <span  class="dropdown">
+                                <button  style="color: dodgerblue;margin-left: 20px" class="dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown">
+                                    {{selectedVersion}}
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu2">
+                                    <li *ngFor="let v of versions" role="presentation" (click)="selectVersion(v)"><a role="menuitem" tabindex="-1" (click)="selectVersion(v)">{{v}}</a></li>
+                                </ul>
+                            </span>
+                                <span>
+                                <a href="#modal_addTestPlan" data-toggle="modal" style="color: dodgerblue;" class="glyphicon glyphicon-plus pull-right"></a>
+                            </span>
+                            </h2>
                         </div>
                         <div class="panel-body">
                             <ul class="list-group">
-                                <li *ngFor="let testPlan of testPlanList" id = {{testPlan}} class="list-group-item " (click)="selectTestplan(testPlan)">
-                                    <span class="badge">{{testPlan}}</span>
+                                <li *ngFor="let element of testplanList" id ="{{element.name}}" class="list-group-item " (click)="selectTestplan(element)">
+                                    <span class="badge">{{element.tag}}</span>
                                     <span style="color: gray;margin-right: 10px" class="glyphicon glyphicon-calendar pull-left"></span>
-                                    {{testPlan}}
+                                    {{element.name}}
                                 </li>
                             </ul>
                         </div>
@@ -134,9 +135,9 @@
                         </div>
                         <div class="panel-body">
                             <ul class="list-group">
-                                <li *ngFor="let sample of sampleList" id={{sample}} class="list-group-item" (click)="selectSample(sample)">
+                                <li *ngFor="let element2 of testsampleList" id="sample{{element2.name}}" class="list-group-item" (click)="selectTestsample(element2)">
                                     <span style="color: gray;margin-right: 10px" class="glyphicon glyphicon-calendar pull-left"></span>
-                                    {{selectedPlan}}{{sample}}
+                                    {{element2.name}}
                                 </li>
                             </ul>
                         </div>
@@ -154,7 +155,7 @@
                         </div>
                         <div class="panel-body">
                             <div *ngIf="editConfig">
-                                <h3>{{selectedSample}}运行配置</h3>
+                                <h3 *ngIf="selectedTestsample">{{selectedTestsample.name}}运行配置</h3>
                                 <form class="form-horizontal" role="form">
                                     <div class="form-group col-md-offset-1 col-md-10">
                                         <label for="config" class="control-label">运行参数</label>
@@ -228,7 +229,7 @@
                             测试计划名称
                         </label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control" id="name">
+                            <input [(ngModel)]="createTestplan.name" [ngModelOptions]="{standalone: true}" type="text" class="form-control" id="name">
                         </div>
                     </div>
                     <div class="form-group">
@@ -236,7 +237,7 @@
                             测试计划描述
                         </label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control"  id="describe">
+                            <input [(ngModel)]="createTestplan.describe" [ngModelOptions]="{standalone: true}" type="text" class="form-control"  id="describe">
                         </div>
                     </div>
                     <div class="form-group">
@@ -244,7 +245,7 @@
                             测试负责人员
                         </label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control" id="manager">
+                            <input [(ngModel)]="createTestplan.manager" [ngModelOptions]="{standalone: true}" type="text" class="form-control" id="manager">
                         </div>
                     </div>
                     <div class="form-group">
@@ -252,7 +253,7 @@
                             测试计划标签
                         </label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control" id="label" placeholder="Monkey ; DFS ; 进化算法">
+                            <input [(ngModel)]="createTestplan.tag" [ngModelOptions]="{standalone: true}" type="text" class="form-control" id="label" placeholder="Monkey ; DFS ; 进化算法">
                         </div>
                     </div>
                     <hr align=right width=500 color=#987cb9 size=1>
@@ -260,7 +261,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal">确定</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="addTestplan()">确定</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
@@ -281,7 +282,7 @@
                             测试计划名称
                         </label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control" id="name2">
+                            <input [(ngModel)]="createTestsample.name" [ngModelOptions]="{standalone: true}" type="text" class="form-control" id="name2">
                         </div>
                     </div>
                     <div class="form-group">
@@ -289,7 +290,7 @@
                             测试计划描述
                         </label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control"  id="describe2">
+                            <input [(ngModel)]="createTestsample.describe" [ngModelOptions]="{standalone: true}" type="text" class="form-control"  id="describe2">
                         </div>
                     </div>
                     <div class="form-group">
@@ -297,7 +298,7 @@
                             测试负责人员
                         </label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control" id="manager2">
+                            <input [(ngModel)]="createTestsample.manager" [ngModelOptions]="{standalone: true}" type="text" class="form-control" id="manager2">
                         </div>
                     </div>
                     <hr align=right width=500 color=#987cb9 size=1>
@@ -305,7 +306,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal">确定</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="addTestsample()">确定</button>
             </div>
         </div>
     </div>

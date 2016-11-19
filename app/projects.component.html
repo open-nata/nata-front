@@ -14,11 +14,11 @@
                                 </a>
                             </div>
                         </div>
-                        <div *ngFor="let element of p">
-                            <div class="col-md-4" (click)="gotoProjectDetail('知乎')">
+                        <div *ngFor="let element of projectList">
+                            <div class="col-md-4" (click)="gotoProjectDetail(element)">
                                 <div class="thumbnail">
                                     <!--<img src="/images/zhihu.png" alt="logo" style="height: 150px;width: 500px;">-->
-                                    <img src="http://localhost:8080/upload/hello3" alt="logo" style="height: 150px;width: 500px;">
+                                    <img src={{element.imageUrl}} alt="logo" style="height: 150px;width: 500px;">
                                 </div>
                             </div>
                         </div>
@@ -44,7 +44,7 @@
                             项目名称
                         </label>
                         <div class="col-sm-9">
-                            <input [(ngModel)]="createProject.name" [ngModelOptions]="{standalone: true}" type="text" class="form-control" id="name">
+                            <input [(ngModel)]="create_project.name" [ngModelOptions]="{standalone: true}" type="text" class="form-control" id="name">
                         </div>
                     </div>
                     <div class="form-group">
@@ -52,7 +52,7 @@
                             项目描述
                         </label>
                         <div class="col-sm-9">
-                            <input [(ngModel)]="createProject.describe" [ngModelOptions]="{standalone: true}" type="text" class="form-control"  id="describe">
+                            <input [(ngModel)]="create_project.describe" [ngModelOptions]="{standalone: true}" type="text" class="form-control"  id="describe">
                         </div>
                     </div>
                     <div class="form-group">
@@ -60,7 +60,7 @@
                             负责人员
                         </label>
                         <div class="col-sm-9">
-                            <input [(ngModel)]="createProject.manager" [ngModelOptions]="{standalone: true}" type="text" class="form-control" id="manager">
+                            <input [(ngModel)]="create_project.manager" [ngModelOptions]="{standalone: true}" type="text" class="form-control" id="manager">
                         </div>
                     </div>
                     <div class="form-group">
@@ -79,7 +79,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="upload()">立即创建</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="createProject()">立即创建</button>
             </div>
         </div>
     </div>

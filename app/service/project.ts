@@ -6,5 +6,5 @@ export class Project{
     name:string;
     describe:string;
     manager:string;
-    imageUrl:string;
+    imageUrl:string;   // Same as project name, *.png
 }

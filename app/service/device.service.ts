@@ -18,7 +18,7 @@ export class DeviceService{
 
     /*获取在线设备列表*/
     getOnlineDevices():Promise<OnlineDevice[]>{
-        const _url = `${this.url}/api/devices/online`;
+        const _url = `${this.url}/api/devices`;
         return this.http.get(_url)
             .toPromise()
             .then(response => response.json() as OnlineDevice[])

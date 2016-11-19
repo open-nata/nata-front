@@ -41,12 +41,12 @@
                         </h3>
                     </div>
                     <div class = "panel-body">
-                        <div *ngFor="let ele of p">
-                            <div class="col-md-3" (click)="showDetail(ele)">
+                        <div *ngFor="let element of devices">
+                            <div class="col-md-3" (click)="showDetail(element)">
                                 <div class="thumbnail">
-                                    <img src="http://localhost:8080/images/zte.jpg" alt="device-png">
+                                    <img src="http://localhost:8080/images/zte.png" alt="device-png">
                                     <div style="text-align: center;color: #337ab7" class="caption">
-                                        中兴手机{{ele}}
+                                        {{element.tag}}
                                     </div>
                                 </div>
                             </div>
@@ -61,44 +61,44 @@
                             设备详细信息
                         </h3>
                     </div>
-                    <div class="panel-body">
+                    <div class="panel-body" *ngIf="selectedDevice">
                         <div>
                             <label>DeviceID:</label>
-                            xxxxx{{seletedP}}
+                            {{selectedDevice.id}}
                         </div>
                         <div>
                             <label>设备名称:</label>
-                            中兴手机{{seletedP}}
+                            {{selectedDevice.name}}
                         </div>
                         <div>
                             <label>Android版本:</label>
-                            {{seletedP}}的安卓版本
+                            {{selectedDevice.android_version}}
                         </div>
                         <div>
                             <label>SDK版本:</label>
-                            {{seletedP}}的SDK版本
+                            {{selectedDevice.sdk_version}}
                         </div>
                         <div>
                             <label>分辨率:</label>
-                            {{seletedP}}的分辨率
+                            {{selectedDevice.resolution}}
                         </div>
                         <div>
                             <label>CPU型号:</label>
-                            {{seletedP}}的cpu型号
+                            {{selectedDevice.cpu_abi}}
                         </div>
                         <div>
                             <label>出厂商:</label>
-                            {{seletedP}}的出厂商
+                            {{selectedDevice.manufacturer}}
                         </div>
                         <div>
                             <label>设备状态:</label>
-                            Busy
+                            {{selectedDevice.busy}}
                         </div>
                         <div>
                             <div class="thumbnail">
                                 <img src="images/zte.jpg" alt="device-png">
                                 <div style="text-align: center;color: #337ab7" class="caption">
-                                    中兴手机{{seletedP}}
+                                    {{selectedDevice.tag}}
                                 </div>
                             </div>
                         </div>

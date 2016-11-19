@@ -6,6 +6,10 @@ import {Component,OnInit} from '@angular/core';
 import {ActivatedRoute,Params} from '@angular/router';
 import {Location} from '@angular/common';
 
+import {Testplan} from './service/testplan';
+import {Testsample} from './service/test.sample';
+import {TestplanService} from './service/testplan.service';
+
 @Component({
     moduleId:module.id,
     selector:'project-manager',
@@ -15,27 +19,134 @@ import {Location} from '@angular/common';
 export class ProjectManagerComponent{
     constructor(
         private route:ActivatedRoute,
-        private location:Location
+        private location:Location,
+        private testplanService:TestplanService
     ){}
 
-    name:string;
+    /*数据结构*/
+    projectName:string;
+    selectedVersion:string = 'v4.1';
+
+    selectedTestplan:Testplan;
+    createTestplan:Testplan = {
+        project:'null',
+        version:'null',
+        name:'name',
+        describe:'describe',
+        manager:'ghj',
+        tag:'monkey'
+    };
+    selectedTestsample:Testsample;
+    createTestsample:Testsample = {
+        project:'null',
+        version:'null',
+        testplan:'null',
+        name:'name',
+        describe:'describe',
+        manager:'ghj',
+
+        config:'null',
+        script:'null'
+    }
+
+    //在线设备列表
+
+
+    //apkList
+    testplanList:Testplan[];
+    testsampleList:Testsample[];
+
+    /*数据结构*/
+
+    ngOnInit():void{
+
+        /*Project Name*/
+        this.route.params.forEach((params: Params) => {
+            this.projectName = params['name'];
+        });
+
+        /*Apk list*/
+        /**/
+
+        /*Test plan*/
+        this.getTestplan();
+        if(this.testplanList)
+            this.selectedTestplan = this.testplanList[0];
+
+        /*Test sample*/
+        if(this.selectedTestplan)
+            this.getTestsample();
+    }
+
+    /*获取测试计划*/
+    getTestplan():void{
+        this.testplanService
+            .getTestplan(this.projectName,this.selectedVersion)
+            .then(testplans => this.testplanList = testplans);
+        if(this.testplanList)
+            this.selectedTestplan = this.testplanList[0];
+    }
+
+    /*新建测试计划*/
+    addTestplan():void{
+        this.createTestplan.project = this.projectName;
+        this.createTestplan.version = this.selectedVersion;
+        this.testplanService
+            .createTestplan(this.createTestplan)
+            .then(testplan =>{
+                this.testplanList.push(testplan)
+            })
+    }
+
+    /*获取测试用例*/
+    getTestsample():void{
+        this.testplanService
+            .getTestsample(this.projectName,this.selectedVersion,this.selectedTestplan.name)
+            .then(testsamples => this.testsampleList = testsamples);
+        this.selectedTestsample = null;
+    }
+
+    /*新建测试用例*/
+    addTestsample():void{
+        this.createTestsample.project = this.projectName;
+        this.createTestsample.version = this.selectedVersion;
+        this.createTestsample.testplan = this.selectedTestplan.name;
+        this.testplanService
+            .createTestsample(this.createTestsample)
+            .then(testsample =>{
+                this.testsampleList.push(testsample);
+            })
+    }
+    /*选择测试计划*/
+    selectTestplan(testplan:Testplan):void{
+        console.log(this.selectedTestplan);
+        if(this.selectedTestplan)
+            document.getElementById(this.selectedTestplan.name).className = "list-group-item";
+        this.selectedTestplan = testplan;
+        document.getElementById(testplan.name).className = "list-group-item active";
+        this.getTestsample();
+    }
+    /*选择测试用例*/
+    selectTestsample(testsample:Testsample):void{
+        console.log(this.selectedTestsample);
+        if(this.selectedTestsample)
+            document.getElementById(`sample${this.selectedTestsample.name}`).className = "list-group-item";
+        this.selectedTestsample = testsample;
+        document.getElementById(`sample${testsample.name}`).className = "list-group-item active";
+    }
+
+
 
     version = '2.3.1';
-    versions= ['2.3.0','2.3.1','2.3.2','2.3.3','2.3.4','2.3.5',
+    versions= ['v4.1','2.3.0','2.3.1','2.3.2','2.3.3','2.3.4','2.3.5',
         '2.4.0','2.4.1','2.4.2','2.4.3','2.4.4','2.4.5',
-        '2.5.0','2.5.1','2.5.2','2.5.3','2.5.4','2.5.5'];
+        '2.5.0', '2.5.1','2.5.2','2.5.3','2.5.4','2.5.5'];
 
     //For page list
     startPage = 0;
     allPage = this.versions.length/4;
     versionDisplay = this.versions.slice(0,4);
 
-    //For Test Plan
-    testPlanList = ['Monkey','脚本测试','进化测试','其他测试'];
-    selectedPlan = this.testPlanList[0];
-    sampleList = ['测试用例','测试用例二','登录成功','1000次'];
-    selectedSample = this.sampleList[0];
-    runnerList = ['1','2','3','4','5'];
 
     //For Edit or Config
     editConfig = true;
@@ -70,27 +181,6 @@ export class ProjectManagerComponent{
 
     selectVersion(v:string):void{
         this.version = v;
-    }
-
-    selectTestplan(s):void{
-        document.getElementById(this.selectedPlan).className = "list-group-item";
-        this.selectedPlan = s;
-        document.getElementById(s).className = "list-group-item active";
-    }
-
-    selectSample(s):void{
-        document.getElementById(this.selectedSample).className = "list-group-item";
-        this.selectedSample = s;
-        document.getElementById(s).className = "list-group-item active";
-    }
-
-    ngOnInit():void{
-        this.route.params.forEach((params: Params) => {
-            this.name = params['name'];
-        });
-    }
-
-    addTestPlan():void{
     }
 
     back():void{

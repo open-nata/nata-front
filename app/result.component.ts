@@ -22,16 +22,9 @@ export class ResultComponent implements OnInit{
     constructor(private http:Http){}
 
     ngOnInit():void {
-        //barChart();
-        this.test();
+        barChart();
+        //this.test();
     }
 
-    test(): Promise<void> {
-        const url = 'http://localhost:8080/book';
-        return this.http.get(url)
-            .toPromise()
-            .then(response => alert(response.text()))
-            .catch();
-    }
 
 }

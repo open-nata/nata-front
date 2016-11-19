@@ -7,6 +7,7 @@ import {Component,OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 
 import {Project} from './service/project';
+import {ProjectService} from './service/project.service';
 
 //封面上传
 import {FileUploader} from 'ng2-file-upload';
@@ -20,39 +21,65 @@ import {FileUploader} from 'ng2-file-upload';
 
 export class ProjectsComponent implements OnInit{
     //封面上传
-    private URL = 'http://localhost:8080/upload/hello3';
+    private URL = 'http://localhost:8080/images';
     public uploader:FileUploader = new FileUploader({url: this.URL});
-    //public hasBaseDropZoneOver:boolean = false;
-    //public hasAnotherDropZoneOver:boolean = false;
 
     constructor(
-        private router :Router
+        private router: Router,
+        private projectService: ProjectService
     ){}
 
-    p = [1,2,3,4,5,6,7,8,9,10];
+    //项目列表
+    projectList:Project[];
 
     //待创建的项目
-    createProject:Project={
-        name:'project',
-        describe:'first',
-        manager:'ghj',
-        imageUrl:'ghj'
+    create_project:Project = {
+        name:'name',
+        describe:'describe',
+        manager:'manager',
+        imageUrl:'imageUrl'
     };
 
-
     ngOnInit():void{
-        
+        this.getProjects();
     }
 
+    /*获取项目列表*/
+    getProjects():void{
+        this.projectService
+            .getProjects()
+            .then(projectList => {
+                this.projectList = projectList
+            })
+    }
+
+    /*创建项目*/
+    createProject():void{
+        this.create_project.imageUrl = `http://localhost:8080/images/${this.create_project.name}.png`;
+        console.log(this.create_project);
+        /*check for create_project*/
+
+        /**/
+        this.projectService
+            .createProject(this.create_project)
+            .then(project => this.projectList.push(project))
+    }
+
+    /*上传项目的封面*/
     upload():void{
         console.log('Upload Start');
+
         this.uploader.onBeforeUploadItem = (item) =>{
             item.withCredentials = false;
+            console.log(item.file.name)
+            item.file.name = this.create_project.name+'.png';
+            console.log(item.file.name)
         }
         this.uploader.uploadAll();
         console.log('Upload end');
     }
-    gotoProjectDetail(ele:string):void{
-        this.router.navigate(['/projectManager',ele]);
+
+    gotoProjectDetail(element:Project):void{
+        this.router.navigate(['/projectManager',element.name]);
     }
 }

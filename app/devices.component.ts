@@ -17,7 +17,7 @@ import {DeviceService} from './service/device.service';
 })
 
 export class DevicesComponent implements  OnInit{
-    //Devices
+    /*Devices:在线设备列表和数据库设备列表*/
     onlineDevices:OnlineDevice[];
     devices:Device[];
 
@@ -25,9 +25,7 @@ export class DevicesComponent implements  OnInit{
         private deviceService: DeviceService,
         private router : Router ){}
 
-    p = [1,2,3,4,5,6,7,8,9,10,11];
-
-    seletedP:number;
+    selectedDevice:Device;
 
     getOnlineDevices():void{
         this.deviceService
@@ -42,17 +40,21 @@ export class DevicesComponent implements  OnInit{
 
     }
     ngOnInit():void{
+        this.getDevices();
+        this.getOnlineDevices();
     }
 
-    showDetail(ele:number):void{
-        this.seletedP = ele;
+    showDetail(device:Device):void{
+        console.log(device.id)
+        this.selectedDevice = device;
     }
 
     get():void{
-        this.getOnlineDevices();
-        this.getDevices();
         for(let i = 0 ; i < this.devices.length; i++){
             console.log(this.devices[i]);
+        }
+        for(let i = 0 ; i < this.onlineDevices.length; i++){
+            console.log(this.onlineDevices[i]);
         }
     }
 }
