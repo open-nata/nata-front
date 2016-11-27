@@ -35,6 +35,36 @@ export class ProjectService{
             .catch(this.handleError)
     }
 
+    /*获取一个项目的详细信息*/
+    getProject(project:string):Promise<Project>{
+        const _url = `${this.url}/api/project/${project}`;
+        return this.http.get(_url)
+            .toPromise()
+            .then(response => {
+                return response.json() as Project
+            })
+            .catch(this.handleError);
+    }
+
+    /*删除一个项目*/
+    deleteProject(project:string):Promise<void>{
+        const _url = `${this.url}/api/project/${project}`;
+        return this.http.delete(_url, {headers: this.headers})
+            .toPromise()
+            .then(() => null)
+            .catch(this.handleError);
+    }
+
+    /*更新一个项目*/
+    updateProject(project:Project):Promise<Project>{
+        const _url = `${this.url}/api/project/${project.name}`;
+        return this.http
+            .put(_url, JSON.stringify(project), {headers: this.headers})
+            .toPromise()
+            .then(() => project)
+            .catch(this.handleError);
+    }
+
     /*错误处理*/
     private handleError(error:any):Promise<any>{
         console.error('An error occurred', error);

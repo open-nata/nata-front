@@ -9,7 +9,7 @@ import {Router} from '@angular/router';
 import {Project} from './service/project';
 import {ProjectService} from './service/project.service';
 
-//封面上传
+// 封面上传
 import {FileUploader} from 'ng2-file-upload';
 
 @Component({
@@ -34,17 +34,18 @@ export class ProjectsComponent implements OnInit{
 
     //待创建的项目
     create_project:Project = {
-        name:'name',
-        describe:'describe',
-        manager:'manager',
-        imageUrl:'imageUrl'
+        name:'project_name',
+        describe:'describe_something',
+        manager:'project_manager',
+        imageUrl:'imageUrl'  //project_name
     };
 
+
+    /*初始化:获取项目列表*/
     ngOnInit():void{
         this.getProjects();
     }
 
-    /*获取项目列表*/
     getProjects():void{
         this.projectService
             .getProjects()
@@ -56,13 +57,15 @@ export class ProjectsComponent implements OnInit{
     /*创建项目*/
     createProject():void{
         this.create_project.imageUrl = `http://localhost:8080/images/${this.create_project.name}.png`;
-        console.log(this.create_project);
-        /*check for create_project*/
 
-        /**/
+        console.log(this.create_project);
+
         this.projectService
             .createProject(this.create_project)
-            .then(project => this.projectList.push(project))
+            .then(project => this.projectList.push(project),
+                err=>{
+                    alert("请检查创建的项目名称")
+            })
     }
 
     /*上传项目的封面*/
@@ -79,6 +82,7 @@ export class ProjectsComponent implements OnInit{
         console.log('Upload end');
     }
 
+    /*Route to a project*/
     gotoProjectDetail(element:Project):void{
         this.router.navigate(['/projectManager',element.name]);
     }

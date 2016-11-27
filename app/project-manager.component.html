@@ -16,7 +16,11 @@
                                 </button>
                             </span>
                             <span>
-                                <button type="button" class="btn btn-default pull-right">
+                                <button href="#modal_del_project" data-toggle="modal" type="button" class="btn btn-danger pull-right">
+                                    <span class="glyphicon glyphicon-exclamation-sign"></span>
+                                    删除项目
+                                </button>
+                                <button href="#modal_update_project" data-toggle="modal" type="button" class="btn btn-default pull-right">
                                     <span class="glyphicon glyphicon-cog"></span>
                                     项目设置
                                 </button>
@@ -327,3 +331,67 @@
     </div>
 </div>
 
+<!--删除项目对话框-->
+<div id="modal_del_project" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h3 id="myModalLabel">删除项目</h3>
+            </div>
+            <div class="modal-body">
+                <p>确认删除项目？</p>
+                <p>删除设备将从数据库移除有关该项目的信息</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</button>
+                <button data-dismiss="modal" class="btn btn-danger" id="btnYes_apk" (click)="deleteProject()">确认</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+
+<!--更新项目对话框-->
+<div *ngIf="project" id="modal_update_project" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">更新项目</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">
+                            项目名称
+                        </label>
+                        <div class="col-sm-9">
+                            {{projectName}}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="describe_u">
+                            项目描述
+                        </label>
+                        <div class="col-sm-9">
+                            <input [(ngModel)]="project.describe" [ngModelOptions]="{standalone: true}" type="text" class="form-control"  id="describe_u">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="manager_u">
+                            负责人员
+                        </label>
+                        <div class="col-sm-9">
+                            <input [(ngModel)]="project.manager" [ngModelOptions]="{standalone: true}" type="text" class="form-control" id="manager_u">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="updateProject()">更新</button>
+            </div>
+        </div>
+    </div>
+</div>

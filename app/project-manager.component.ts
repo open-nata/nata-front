@@ -14,6 +14,9 @@ import {Testplan} from './service/testplan';
 import {Testsample} from './service/test.sample';
 import {Testrunner} from './service/testrunner';
 
+import {Project} from './service/project';
+
+import {ProjectService} from './service/project.service';
 import {TestplanService} from './service/testplan.service';
 import {TestrunnerService} from './service/testrunner.service';
 
@@ -27,6 +30,7 @@ export class ProjectManagerComponent{
     constructor(
         private route:ActivatedRoute,
         private location:Location,
+        private projectService:ProjectService,
         private testplanService:TestplanService,
         private testrunnerService:TestrunnerService,
         private deviceService:DeviceService
@@ -34,7 +38,9 @@ export class ProjectManagerComponent{
 
     /*数据结构*/
     projectName:string;
-    selectedVersion:string = 'v4.1';
+    project:Project;
+
+    selectedVersion:string = 'v4.1'; //apk暂时未处理
 
     selectedTestplan:Testplan;
     createTestplan:Testplan = {
@@ -66,12 +72,13 @@ export class ProjectManagerComponent{
     deviceList:OnlineDevice[];
     selectedDevice:OnlineDevice;
 
-    //apkList
+    //apkList还没加入
     testplanList:Testplan[];
     testsampleList:Testsample[];
 
     /*数据结构*/
 
+    /*初始化*/
     ngOnInit():void{
 
         /*Project Name*/
@@ -79,20 +86,34 @@ export class ProjectManagerComponent{
             this.projectName = params['name'];
         });
 
+        /*获取project详细信息*/
+        this.getProject();
+
         /*Apk list*/
         /**/
 
         /*Test plan*/
         this.getTestplan();
-        if(this.testplanList)
-            this.selectedTestplan = this.testplanList[0];
-
-        /*Test sample*/
-        if(this.selectedTestplan)
-            this.getTestsample();
 
         /*获取在线设备列表*/
         this.getOnlineDevices();
+    }
+
+    /*获取项目*/
+    getProject(){
+        this.projectService.getProject(this.projectName)
+            .then(res => this.project = res)
+    }
+    /*删除项目*/
+    deleteProject(){
+        this.projectService.deleteProject(this.projectName)
+            .then(()=>this.back())
+    }
+
+    /*更新项目*/
+    updateProject(){
+        this.projectService.updateProject(this.project)
+            .then(res => this.project = res)
     }
 
     /*获取测试计划*/
@@ -271,6 +292,7 @@ export class ProjectManagerComponent{
         this.version = v;
     }
 
+    /*删除项目之后回退*/
     back():void{
         this.location.back();
     }
