@@ -4,7 +4,7 @@
 import {Component,OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 
-//Device Service
+/*Device Service*/
 import {Device} from './service/device';
 import {OnlineDevice} from './service/online-device';
 import {DeviceService} from './service/device.service';
@@ -18,15 +18,12 @@ import {DeviceService} from './service/device.service';
 
 export class DevicesComponent implements  OnInit{
 
+    /*Device Image Url */
     private url = "http://localhost:8080/device-tag/";
 
-    /*Devices:在线设备列表和数据库设备列表*/
+    /*Devices:在线设备列表和数据库设备列表,统计信息*/
     onlineDevices:OnlineDevice[];
     devices:Device[];
-
-    /*统计信息*/
-    onlineNumber:number;
-    totalNumber:number;
     freeNumber:number;
 
     /*设备标签*/
@@ -35,28 +32,38 @@ export class DevicesComponent implements  OnInit{
 
     /*管理页面*/
     display:boolean = true;
+    selectDisplay(_display:boolean){
+        this.display = _display;
+    }
 
     constructor(
         private deviceService: DeviceService,
         private router : Router ){}
 
+    /*初始化：获取在线设备和数据库设备*/
+    ngOnInit():void{
+        this.getDevices();
+        this.getOnlineDevices();
 
-
+    }
     getOnlineDevices():void{
         this.deviceService
             .getOnlineDevices()
-            .then(response => this.onlineDevices = response);
+            .then(response => {
+                this.onlineDevices = response;
+            });
     }
 
     getDevices():void{
         this.deviceService
             .getDevices()
-            .then(response => this.devices = response);
-
-    }
-    ngOnInit():void{
-        this.getDevices();
-        this.getOnlineDevices();
+            .then(response => {
+                this.devices = response;
+                if(this.devices.length > 0) {
+                    this.selectedDevice = this.devices[0];
+                    this.getBusyDevice();
+                }
+            });
     }
 
     /*更新设备信息*/
@@ -88,10 +95,12 @@ export class DevicesComponent implements  OnInit{
         this.deviceService.deleteDevice(this.deletedDevice)
             .then(() => {
                 this.devices = this.devices.filter(h => h !== this.deletedDevice);
-                if (this.selectedDevice === this.deletedDevice) { this.selectedDevice = null; }
+                if (this.selectedDevice === this.deletedDevice) {
+                    this.selectedDevice = null;
+                    console.log(this.selectedDevice)
+                }
             });
     }
-
 
     /*选择并且查看设备详细信息*/
     showDetail(device:Device):void{
@@ -99,25 +108,19 @@ export class DevicesComponent implements  OnInit{
         this.selectedDevice = device;
     }
 
-    /*选择页面*/
-    selectDisplay(_display:boolean){
-        this.display = _display;
-    }
-
     /*刷新在线设备*/
     refresh(){
         this.getOnlineDevices();
     }
 
-    getBusyDevice(){
-        return 0;
-    }
-    get():void{
-        for(let i = 0 ; i < this.devices.length; i++){
-            console.log(this.devices[i]);
+    /*获取正在运行的设备数目*/
+    getBusyDevice():void{
+        let count = 0;
+        for(let device of this.devices){
+            if(device.state == 'busy')
+                count ++;
         }
-        for(let i = 0 ; i < this.onlineDevices.length; i++){
-            console.log(this.onlineDevices[i]);
-        }
+        this.freeNumber = count;
     }
+
 }
