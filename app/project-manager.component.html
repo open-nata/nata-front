@@ -60,7 +60,7 @@
                                 2016-1-3
                             </th>
                             <th>
-                                知乎
+                                畅行南通
                             </th>
                             <th style="color: dodgerblue">
                                 <button>{{element}}</button>
@@ -94,8 +94,8 @@
         <!-- Test Plan-->
         <div *ngIf="testplan" class="row">
             <div class="col-md-offset-1 col-md-10">
-                <div class="row">
-                <div class="col-md-3">
+
+                <div  class="col-md-3">
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <h2 class="panel-title">
@@ -114,7 +114,7 @@
                             </span>
                             </h2>
                         </div>
-                        <div class="panel-body">
+                        <div style="overFlow-y:scroll;height: 550px"  class="panel-body">
                             <ul class="list-group">
                                 <li *ngFor="let element of testplanList" id ="{{element.name}}" class="list-group-item " (click)="selectTestplan(element)">
                                     <span class="badge">{{element.tag}}</span>
@@ -126,14 +126,14 @@
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="panel panel-default">
+                    <div  class="panel panel-default">
                         <div class="panel-heading">
                             <h3 class="panel-title">
                                 用例列表
                                 <a href="#modal_addTestSample" data-toggle="modal" style="color: dodgerblue" class="glyphicon glyphicon-plus pull-right"></a>
                             </h3>
                         </div>
-                        <div class="panel-body">
+                        <div style="overFlow-y:scroll;height: 550px" class="panel-body">
                             <ul class="list-group">
                                 <li *ngFor="let element2 of testsampleList" id="sample{{element2.name}}" class="list-group-item" (click)="selectTestsample(element2)">
                                     <span style="color: gray;margin-right: 10px" class="glyphicon glyphicon-calendar pull-left"></span>
@@ -144,7 +144,7 @@
                     </div>
                 </div>
                 <div class="col-md-5">
-                    <div class="panel panel-default">
+                    <div style="height: 600px" class="panel panel-default">
                         <div class="panel-heading">
                             <h3 class="panel-title">
                                 <ul class="nav nav-pills" role="tablist">
@@ -222,7 +222,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
             </div>
         </div>
         <!-- Test Plan-->

@@ -2,6 +2,9 @@
  * Created by ghj on 16-10-23.
  */
 
+import {Testrunner} from './service/testrunner';
+import {TestrunnerService} from './service/testrunner.service';
+
 import {Component,OnInit} from '@angular/core';
 
 import {Router} from '@angular/router';
@@ -15,20 +18,42 @@ import {Router} from '@angular/router';
 
 export class RunnerListComponent implements OnInit{
 
-    //Data
-    list = ['R','S','S','S','S'];
-    selectedRunner:string;
+    /*数据结构*/
+    testrunnerList:Testrunner[];
 
     constructor(
-        private router:Router
+        private router:Router,
+        private testService:TestrunnerService
+
     ){}
 
     ngOnInit():void{
-
+        this.getList();
     }
 
-    gotoDetail(runner:string){
-        this.selectedRunner = runner;
-        this.router.navigate(['runner',this.selectedRunner]);
+    /*获取数据库运行列表*/
+    getList():void{
+        this.testService.getList()
+            .then(testList => this.testrunnerList = testList);
+    }
+
+    /*日期*/
+    transDate(date:Date){
+        const s = date.toString();
+        return s.slice(0,16);
+    }
+
+    /*查看一次运行的具体情况*/
+    gotoDetail(runner:Testrunner){
+        const id = runner._id;
+        console.log('Testrunner '+id);
+        this.router.navigate(['runner',id]);
+    }
+
+    /*查看一次运行的具体结果*/
+    gotoResult(runner:Testrunner){
+        const id = runner._id;
+        console.log('Testrunner '+id);
+        this.router.navigate(['result',id])
     }
 }

@@ -6,11 +6,16 @@ import {Component,OnInit} from '@angular/core';
 import {ActivatedRoute,Params} from '@angular/router';
 import {Location} from '@angular/common';
 
+/*运行时获取在线设备:这里最好还要区分设备的状态*/
 import {OnlineDevice} from './service/online-device';
 import {DeviceService} from './service/device.service';
+
 import {Testplan} from './service/testplan';
 import {Testsample} from './service/test.sample';
+import {Testrunner} from './service/testrunner';
+
 import {TestplanService} from './service/testplan.service';
+import {TestrunnerService} from './service/testrunner.service';
 
 @Component({
     moduleId:module.id,
@@ -23,6 +28,7 @@ export class ProjectManagerComponent{
         private route:ActivatedRoute,
         private location:Location,
         private testplanService:TestplanService,
+        private testrunnerService:TestrunnerService,
         private deviceService:DeviceService
     ){}
 
@@ -47,16 +53,18 @@ export class ProjectManagerComponent{
         name:'name',
         describe:'describe',
         manager:'ghj',
+        tag:'null',
         config:'null',
         script:'null'
     }
 
+    //关联测试用例的测试运行实例
+    testrunnerList : Testrunner[];
+    createTestrunner:Testrunner;
+
     //在线设备列表
     deviceList:OnlineDevice[];
     selectedDevice:OnlineDevice;
-
-    //关联测试用例的测试运行实例
-
 
     //apkList
     testplanList:Testplan[];
@@ -180,6 +188,39 @@ export class ProjectManagerComponent{
     /*建立一次运行*/
     createTestcase():void{
         console.log("创建一个运行实例");
+
+        if(this.selectedTestsample === undefined) {
+            alert("创建运行失败:未选择特定的测试用例")
+            return ;
+        }
+        this.selectDevice();
+        if(this.selectedDevice === undefined){
+            alert("创建运行失败：未选择设备")
+            //return
+        }
+
+        /*从testsample转换为testrunner*/
+        console.log(this.selectedTestsample)
+
+        this.createTestrunner = new Testrunner()
+
+        this.createTestrunner._id = 'null';
+        this.createTestrunner.project = this.selectedTestsample.project;
+        this.createTestrunner.version = this.selectedTestsample.version;
+        this.createTestrunner.testplan = this.selectedTestsample.testplan;
+        this.createTestrunner.testsample = this.selectedTestsample.name;
+        this.createTestrunner.tag = this.selectedTestsample.tag;
+        this.createTestrunner.deviceId = this.selectedDevice.id;
+        this.createTestrunner.state = 'running';
+        this.createTestrunner.config = this.selectedTestsample.config;
+        this.createTestrunner.script = this.selectedTestsample.script;
+        this.createTestrunner.resultMonkey = ['Result of monkey runner'];
+
+        console.log(this.createTestrunner);
+
+        this.testrunnerService
+            .create(this.createTestrunner)
+            .then(testrunner => this.testrunnerList.push(testrunner))
 
     }
 

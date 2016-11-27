@@ -1,14 +1,36 @@
-<div>
-    <button type="button" class="btn btn-default" (click)="get()" >HTTP GET</button>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-offset-1 col-md-9">
+            <div class = "panel panel-default ">
+                <div class="panel-heading">
+                    <h2 class="panel-title">设备
+                        <span style="margin-left: 40px" class="btn-group">
+                            <button type="button" class="btn btn-default" (click)="selectDisplay(false)">
+                                <span class="glyphicon glyphicon-time"></span>
+                                设备管理
+                            </button>
+                            <button type="button" class="btn btn-default" (click)="selectDisplay(true)">
+                                <span class="glyphicon glyphicon-open"></span>
+                                设备总览
+                            </button>
+                        </span>
+                    </h2>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-<div id="devices">
-    <div class="container-fluid">
+
+<!--设备总览-->
+<div  id="devices">
+    <div class="container-fluid" *ngIf="display">
         <div id="device-sum" class="row">
             <div class="col-md-offset-1 col-md-3">
                 <div class="panel panel-default">
                     <h3 style="color: royalblue;text-align: center ">
                         <span class="glyphicon glyphicon-star "></span>
-                        <span>170</span>
+                        <span *ngIf="devices">{{devices.length}}</span>
                     </h3>
                     <h3 style="text-align: center">设备总数</h3>
                 </div>
@@ -17,16 +39,16 @@
                 <div class="panel panel-default">
                     <h3 style="color: royalblue;text-align: center ">
                         <span class="glyphicon glyphicon-star-empty"></span>
-                        <span>145</span>
+                        <span *ngIf="onlineDevices">{{onlineDevices.length}}</span>
                     </h3>
-                    <h3 style="text-align: center">可用设备</h3>
+                    <h3 style="text-align: center">在线设备</h3>
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="panel panel-default">
                     <h3 style="color: royalblue;text-align: center ">
                         <span class="glyphicon glyphicon-fire "></span>
-                        <span>25</span>
+                        <span>{{getBusyDevice()}}</span>
                     </h3>
                     <h3 style="text-align: center">忙设备</h3>
                 </div>
@@ -44,9 +66,9 @@
                         <div *ngFor="let element of devices">
                             <div class="col-md-3" (click)="showDetail(element)">
                                 <div class="thumbnail">
-                                    <img src="http://localhost:8080/images/zte.png" alt="device-png">
+                                    <img style="width: 200px;height: 180px" src="{{url}}{{element.tag}}.png" alt="device-png">
                                     <div style="text-align: center;color: #337ab7" class="caption">
-                                        {{element.tag}}
+                                        {{element.id}}
                                     </div>
                                 </div>
                             </div>
@@ -92,15 +114,24 @@
                         </div>
                         <div>
                             <label>设备状态:</label>
-                            {{selectedDevice.busy}}
+                            {{selectedDevice.state}}
                         </div>
                         <div>
                             <div class="thumbnail">
-                                <img src="images/zte.jpg" alt="device-png">
+                                <!--<img src="images/zte.jpg" alt="device-png">-->
+                                <img src="{{url}}{{selectedDevice.tag}}.png" alt="device-png">
                                 <div style="text-align: center;color: #337ab7" class="caption">
-                                    {{selectedDevice.tag}}
+                                    {{selectedDevice.id}}
                                 </div>
                             </div>
+                        </div>
+                        <div>
+                            <label>设备标签</label>
+                            <!--<input [(ngModel)]="selectedDevice.tag" placeholder="default is zte">-->
+                            <select class="form-control" id="selectDeviceTag">
+                                <option *ngFor="let item of deviceTagList" >{{item}}</option>
+                            </select>
+                            <button class="btn btn-primary" (click)="updateDevice()">保存修改</button>
                         </div>
                     </div>
                 </div>
@@ -109,3 +140,116 @@
     </div>
 </div>
 
+<!--设备管理-->
+<div id="deviceManager">
+    <div class="container-fluid" *ngIf="!display">
+        <div class="row">
+            <div class="col-md-offset-1 col-md-3">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">在线设备<span id="refresh-span"
+                                                          class="text-info icon ion-android-refresh pull-right" (click)="refresh()"> Refresh</span>
+                        </h3>
+                    </div>
+                    <table class="table table-hover ">
+                        <thead>
+                        <tr>
+                            <th>
+                                设备
+                            </th>
+                            <th>
+                                类型
+                            </th>
+                            <th>
+                                操作
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody *ngFor="let element of onlineDevices">
+                        <tr>
+                            <th>
+                                {{element.id}}
+                            </th>
+                            <th>
+                                {{element.type}}
+                            </th>
+                            <th style="color: green" (click)="createDevice(element)">
+                                登记
+                            </th>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">已登记设备列表</h3>
+                    </div>
+                    <table class="table table-hover ">
+                        <thead>
+                        <tr>
+                            <th>
+                                ID
+                            </th>
+                            <th>
+                                名称
+                            </th>
+                            <th>
+                                Android版本
+                            </th>
+                            <th>
+                                SDK
+                            </th>
+                            <th>
+                                操作
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody *ngFor="let element of devices">
+                            <tr>
+                                <th>
+                                    {{element.id}}
+                                </th>
+                                <th>
+                                    {{element.name}}
+                                </th>
+                                <th>
+                                    {{element.android_version}}
+                                </th>
+                                <th>
+                                    {{element.sdk_version}}
+                                </th>
+                                <th>
+                                    <a href="#modal_del_device" data-toggle="modal" style="color: red" (click)="selectDeleteDevice(element)">删除</a>
+                                </th>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="modal_del_device" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h3 id="myModalLabel">删除设备</h3>
+            </div>
+            <div class="modal-body">
+                <p>确认删除设备？</p>
+                <p>删除设备将从数据库移除有关该设备的信息</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</button>
+                <button data-dismiss="modal" class="btn btn-danger" id="btnYes_apk" (click)="deleteDevice()">确认</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>

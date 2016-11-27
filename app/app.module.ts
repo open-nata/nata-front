@@ -16,6 +16,7 @@ import {ProjectManagerComponent} from './project-manager.component';
 import {EditScriptComponent} from './edit-script.component';
 import {RunnerListComponent} from './runner-list.component';
 import {RunnerComponent} from './runner.component';
+import {OutputComponent} from './output.component';
 import {ResultComponent} from './result.component';
 
 import {FileSelectDirective} from 'ng2-file-upload';
@@ -27,6 +28,7 @@ import {routing } from './app.routing';
 import {DeviceService} from './service/device.service';
 import {ProjectService} from './service/project.service';
 import {TestplanService} from './service/testplan.service';
+import {TestrunnerService} from './service/testrunner.service';
 
 @NgModule({
     imports : [BrowserModule,
@@ -41,12 +43,14 @@ import {TestplanService} from './service/testplan.service';
         EditScriptComponent,
         RunnerListComponent,
         RunnerComponent,
+        OutputComponent,
         ResultComponent,
         FileSelectDirective
     ],
     providers:[DeviceService,
         ProjectService,
-        TestplanService
+        TestplanService,
+        TestrunnerService
     ],
     bootstrap:[AppComponent]
 })

@@ -1,0 +1,93 @@
+<!--结果查看界面：打算分离出来-->
+
+<div id = "output">
+    <div class="container-fluid">
+        <div class="row">
+            <!--测试的详细信息-->
+            <div class="col-md-4">
+                <div style="border-color: #d4d4d4" class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="panel-title">
+                            测试详细信息
+                        </div>
+                    </div>
+                    <div *ngIf="testrunner" style="height: 700px" class="panel-body">
+                        <div style="font-size: large">
+                            <label style="color: royalblue">测试项目</label>
+                            {{testrunner.project}}
+                        </div>
+                        <div style="font-size: large">
+                            <label style="color: royalblue">测试版本</label>
+                            {{testrunner.version}}
+                        </div>
+                        <div style="font-size: large">
+                            <label style="color: royalblue">测试计划</label>
+                            {{testrunner.testplan}}
+                        </div>
+                        <div style="font-size: large">
+                            <label style="color: royalblue">测试用例</label>
+                            {{testrunner.testsample}}
+                        </div>
+                        <div style="font-size: large">
+                            <label style="color: royalblue">设备使用</label>
+                            {{testrunner.deviceId}}
+                        </div>
+                        <button type="button" class="btn btn-info" >结果保存(Github)</button>
+                        <button type="button" class="btn btn-warning">返回</button>
+                        <div style="margin-top: 50px" class="thumbnail">
+                            <img src={{imageUrl}} alt="logo" style="height: 350px;width: 500px;">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <!--测试的结果展示-->
+            <div class="col-md-8">
+                <div style="border-color: #d4d4d4" class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="panel-title">
+                            <ul class="nav nav-pills" role="tablist">
+                                <li role="presentation" [ngClass]="{'active': selectedPage=='page1'}"><a (click)="selectActive('page1')">统计数据</a></li>
+                                <li role="presentation" [ngClass]="{'active': selectedPage=='page2'}"><a (click)="selectActive('page2')">树形图</a></li>
+                                <li role="presentation" [ngClass]="{'active': selectedPage=='page3'}"><a (click)="selectActive('page3')">Crash</a></li>
+                                <li role="presentation" [ngClass]="{'active': selectedPage=='page4'}"><a (click)="selectActive('page4')">Exception</a></li>
+                                <li role="presentation" [ngClass]="{'active': selectedPage=='page5'}"><a (click)="selectActive('page5')">Log</a></li>
+                            </ul>
+                        </div>
+
+                    </div>
+                    <div style="height: 700px" class="panel-body">
+                        <div *ngIf="selectedPage=='page1'">
+                            <h2>Hello1</h2>
+                        </div>
+                        <div *ngIf="selectedPage=='page2'">
+                            <h2>Hello2</h2>
+                        </div>
+                        <div *ngIf="selectedPage=='page3'">
+                            <h2>Hello3</h2>
+                        </div>
+                        <div *ngIf="selectedPage=='page4'">
+                            <h2>Hello4</h2>
+                        </div>
+                        <div *ngIf="selectedPage=='page5'">
+                            <div class="panel panel-default">
+
+                                <div id="result" style="overFlow-y:scroll;width:100%;height: 650px" class="panel-body">
+                                    <div class="table-wrapper ">
+                                        <table class="table" id="table_result">
+                                            <tbody *ngFor="let element of resultMonkey">
+                                            <tr>
+                                                {{element}}
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

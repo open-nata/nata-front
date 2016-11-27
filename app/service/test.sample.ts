@@ -10,7 +10,7 @@ export class Testsample{
     name:string;
     describe:string;
     manager:string;
-
+    tag:string;  //算法
     config:string; //monkey等运行的配置
     script:string; //编辑脚本
 }

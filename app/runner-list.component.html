@@ -6,7 +6,7 @@
                     <div class="panel-heading">
                         <div class="panel-title">
                             运行列表
-                            <button style="margin-left: 70%;width: 50px" type="button" class="btn btn-success">R</button>
+                            <button style="margin-left: 60%;width: 50px" type="button" class="btn btn-success">R</button>
                             Running
                             <button style="width: 50px" type="button" class="btn btn-Warning">S</button>
                             Stop
@@ -24,37 +24,43 @@
                                     日期
                                 </th>
                                 <th>
-                                    额外参数
+                                    测试项目
                                 </th>
                                 <th>
-                                    设备
+                                    测试计划
+                                </th>
+                                <th>
+                                    设备Id
                                 </th>
                                 <th>
                                     操作
                                 </th>
                             </tr>
                             </thead>
-                            <tbody *ngFor="let runner of list">
+                            <tbody *ngFor="let element of testrunnerList">
                             <tr>
                                 <th>
-                                    <div *ngIf="runner=='S'">
+                                    <div *ngIf="element.state=='stop'">
                                         <button type="button" class="btn btn-Warning">S</button>
                                     </div>
-                                    <div *ngIf="runner=='R'">
+                                    <div *ngIf="element.state=='running'">
                                         <button type="button" class="btn btn-success">R</button>
                                     </div>
                                 </th>
                                 <th>
-                                    2016-06-01
+                                    {{transDate(element.create_at)}}
                                 </th>
                                 <th>
-                                    -s 1000...
+                                    {{element.project}}
                                 </th>
                                 <th>
-                                    <span class="label label-info">三星Note7</span>
+                                    {{element.testplan}}
                                 </th>
                                 <th>
-                                    <div *ngIf="runner=='S'">
+                                    <span class="label label-info">{{element.deviceId}}</span>
+                                </th>
+                                <th>
+                                    <div *ngIf="element.state=='stop'">
                                         <button type="button" class="btn btn-info">结果</button>
 
                                             <button type="button" class="btn btn-danger">
@@ -63,9 +69,9 @@
                                             </button>
 
                                     </div>
-                                    <div *ngIf="runner=='R'">
-                                        <button type="button" class="btn btn-info" (click)="gotoDetail(runner)">查看运行</button>
-                                        <button type="button" class="btn btn-warning">停止</button>
+                                    <div *ngIf="element.state=='running'">
+                                        <button type="button" class="btn btn-info" (click)="gotoDetail(element)">查看运行</button>
+                                        <button type="button" class="btn btn-warning" (click)="gotoResult(element)">停止</button>
                                     </div>
                                 </th>
                             </tr>

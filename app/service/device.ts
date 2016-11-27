@@ -9,6 +9,6 @@ export class Device{
     cpu_abi:string;
     manufacturer:string;
     tag:string;
-    busy:boolean;
+    state:string;
     create_at:Date;
 }
