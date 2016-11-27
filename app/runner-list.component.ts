@@ -34,7 +34,9 @@ export class RunnerListComponent implements OnInit{
     /*获取数据库运行列表*/
     getList():void{
         this.testService.getList()
-            .then(testList => this.testrunnerList = testList);
+            .then(testList => {
+                this.testrunnerList = testList;
+            });
     }
 
     /*日期*/

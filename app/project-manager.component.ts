@@ -3,7 +3,7 @@
  */
 
 import {Component,OnInit} from '@angular/core';
-import {ActivatedRoute,Params} from '@angular/router';
+import {ActivatedRoute,Params,Router} from '@angular/router';
 import {Location} from '@angular/common';
 
 /*运行时获取在线设备:这里最好还要区分设备的状态*/
@@ -29,6 +29,7 @@ import {TestrunnerService} from './service/testrunner.service';
 export class ProjectManagerComponent{
     constructor(
         private route:ActivatedRoute,
+        private router:Router,
         private location:Location,
         private projectService:ProjectService,
         private testplanService:TestplanService,
@@ -42,15 +43,21 @@ export class ProjectManagerComponent{
 
     selectedVersion:string = 'v4.1'; //apk暂时未处理
 
+    /*Testplan*/
+    testplanList:Testplan[];
     selectedTestplan:Testplan;
+    testTagList:string[] = ['Monkey','DFS','进化算法','Other'];
     createTestplan:Testplan = {
         project:'null',
         version:'null',
         name:'name',
         describe:'describe',
-        manager:'ghj',
+        manager:'manager',
         tag:'monkey'
     };
+
+    /*Testsample*/
+    testsampleList:Testsample[];
     selectedTestsample:Testsample;
     createTestsample:Testsample = {
         project:'null',
@@ -58,7 +65,7 @@ export class ProjectManagerComponent{
         testplan:'null',
         name:'name',
         describe:'describe',
-        manager:'ghj',
+        manager:'manager',
         tag:'null',
         config:'null',
         script:'null'
@@ -73,8 +80,6 @@ export class ProjectManagerComponent{
     selectedDevice:OnlineDevice;
 
     //apkList还没加入
-    testplanList:Testplan[];
-    testsampleList:Testsample[];
 
     /*数据结构*/
 
@@ -89,7 +94,7 @@ export class ProjectManagerComponent{
         /*获取project详细信息*/
         this.getProject();
 
-        /*Apk list*/
+        /*获取apk列表*/
         /**/
 
         /*Test plan*/
@@ -104,6 +109,7 @@ export class ProjectManagerComponent{
         this.projectService.getProject(this.projectName)
             .then(res => this.project = res)
     }
+
     /*删除项目*/
     deleteProject(){
         this.projectService.deleteProject(this.projectName)
@@ -121,18 +127,25 @@ export class ProjectManagerComponent{
         this.testplanService
             .getTestplan(this.projectName,this.selectedVersion)
             .then(testplans => this.testplanList = testplans);
-        if(this.testplanList)
-            this.selectedTestplan = this.testplanList[0];
     }
 
     /*新建测试计划*/
     addTestplan():void{
+
+        /*获取标签*/
+        const select = document.getElementById('selectTestTag') as HTMLSelectElement;
+        const selectedIndex = select.selectedIndex;
+        console.log(selectedIndex);
+        this.createTestplan.tag = this.testTagList[selectedIndex];
+
         this.createTestplan.project = this.projectName;
         this.createTestplan.version = this.selectedVersion;
         this.testplanService
             .createTestplan(this.createTestplan)
             .then(testplan =>{
                 this.testplanList.push(testplan)
+            },err=>{
+                alert("请检查测试计划的名称是否重复")
             })
     }
 
@@ -141,18 +154,25 @@ export class ProjectManagerComponent{
         this.testplanService
             .getTestsample(this.projectName,this.selectedVersion,this.selectedTestplan.name)
             .then(testsamples => this.testsampleList = testsamples);
-        this.selectedTestsample = null;
     }
 
     /*新建测试用例*/
     addTestsample():void{
-        this.createTestsample.project = this.projectName;
-        this.createTestsample.version = this.selectedVersion;
+        if(!this.selectedTestplan){
+            alert("请先选择一个测试计划")
+            return;
+        }
+
+        this.createTestsample.project = this.selectedTestplan.project;
+        this.createTestsample.version = this.selectedTestplan.version;
         this.createTestsample.testplan = this.selectedTestplan.name;
+        this.createTestsample.tag = this.selectedTestplan.tag;
         this.testplanService
             .createTestsample(this.createTestsample)
             .then(testsample =>{
                 this.testsampleList.push(testsample);
+            },err=>{
+                alert("请检查测试用例名称是否重复")
             })
     }
 
@@ -163,6 +183,7 @@ export class ProjectManagerComponent{
         console.log(this.selectedTestsample);
         this.testplanService
             .updateTestsample(this.selectedTestsample)
+
         this.selectDevice();
     }
 
@@ -178,7 +199,10 @@ export class ProjectManagerComponent{
             document.getElementById(this.selectedTestplan.name).className = "list-group-item";
         this.selectedTestplan = testplan;
         document.getElementById(testplan.name).className = "list-group-item active";
+
+        /*获取关联测试计划的测试用例*/
         this.getTestsample();
+        this.selectedTestsample = null;
     }
     /*选择测试用例*/
     selectTestsample(testsample:Testsample):void{
@@ -189,6 +213,26 @@ export class ProjectManagerComponent{
         console.log(this.selectedTestsample);
 
         this.selectedDevice = null;
+
+        /*获取与测试用例相关的一系列测试运行*/
+        this.getTestrunner();
+    }
+
+    /*获取测试运行*/
+    getTestrunner():void{
+        console.log("获取测试运行")
+        this.testrunnerService.getTargetList(this.selectedTestsample)
+            .then(list => {
+                this.testrunnerList = list
+                console.log(this.testrunnerList)
+            },err=>{
+                alert("获取运行列表失败")
+            })
+    }
+    /*日期*/
+    transDate(date:Date){
+        const s = date.toString();
+        return s.slice(0,16);
     }
 
     /*获取在线设备列表*/
@@ -210,14 +254,14 @@ export class ProjectManagerComponent{
     createTestcase():void{
         console.log("创建一个运行实例");
 
-        if(this.selectedTestsample === undefined) {
+        if(!this.selectedTestsample) {
             alert("创建运行失败:未选择特定的测试用例")
             return ;
         }
         this.selectDevice();
-        if(this.selectedDevice === undefined){
+        if(!this.selectedDevice){
             alert("创建运行失败：未选择设备")
-            //return
+            return
         }
 
         /*从testsample转换为testrunner*/
@@ -244,6 +288,22 @@ export class ProjectManagerComponent{
             .then(testrunner => this.testrunnerList.push(testrunner))
 
     }
+    
+    /*控制页面:config,edit,history*/
+    controlNav :string = 'config';
+    selectNav(select:string):void{
+        this.controlNav = select;
+    }
+
+    /*控制页面是apk管理还是测试计划*/
+    testplanPage = true;
+    displayTestPlan():void{
+        this.testplanPage = true;
+    }
+    displayApkManager():void{
+        this.testplanPage = false;
+    }
+
 
     /**/
     version = '2.3.1';
@@ -255,22 +315,6 @@ export class ProjectManagerComponent{
     startPage = 0;
     allPage = this.versions.length/4;
     versionDisplay = this.versions.slice(0,4);
-
-
-    /*控制页面:config,edit,history*/
-    controlNav :string = 'config';
-    selectNav(select:string):void{
-        this.controlNav = select;
-    }
-
-    testplan = false;
-    displayTestPlan():void{
-        this.testplan = true;
-    }
-    displayApkManager():void{
-        this.testplan = false;
-    }
-
     prePage():void{
         if(this.startPage > 0){
             this.startPage --;
@@ -295,5 +339,12 @@ export class ProjectManagerComponent{
     /*删除项目之后回退*/
     back():void{
         this.location.back();
+    }
+
+    /*路由：查看一次运行的具体结果*/
+    gotoDetail(runner:Testrunner){
+        const id = runner._id;
+        console.log('Testrunner '+id);
+        this.router.navigate(['result',id]);
     }
 }

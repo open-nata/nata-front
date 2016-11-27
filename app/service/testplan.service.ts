@@ -39,7 +39,7 @@ export class TestplanService{
             .catch(this.handleError)
     }
 
-    /*获取Testplan列表*/
+    /*获取Testsample列表*/
     getTestsample(project:string,version:string,testplan:string):Promise<Testsample[]>{
         const _url = `${this.url}/${project}/${version}/${testplan}/testsample`;
         console.log(_url)

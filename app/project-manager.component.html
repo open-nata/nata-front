@@ -1,5 +1,7 @@
 <div id="project-manager">
     <div class="container-fluid">
+
+        <!--项目头部-->
         <div class="row">
             <div class="col-md-offset-1 col-md-10">
                 <div class = "panel panel-default ">
@@ -32,7 +34,7 @@
         </div>
 
         <!-- Apk Manager-->
-        <div *ngIf="!testplan" class="row">
+        <div *ngIf="!testplanPage" class="row">
             <div class="col-md-offset-1 col-md-10">
                 <div class = "panel panel-default">
                     <div class="panel-heading">
@@ -96,14 +98,15 @@
         <!-- Apk Manager>
 
         <!-- Test Plan-->
-        <div *ngIf="testplan" class="row">
+        <div *ngIf="testplanPage" class="row">
             <div class="col-md-offset-1 col-md-10">
 
+                <!--测试计划-->
                 <div  class="col-md-3">
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <h2 class="panel-title">
-                                测试计划
+                                测试版本
                             <span  class="dropdown">
                                 <button  style="color: dodgerblue;margin-left: 20px" class="dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown">
                                     {{selectedVersion}}
@@ -129,6 +132,8 @@
                         </div>
                     </div>
                 </div>
+
+                <!--测试用例-->
                 <div class="col-md-4">
                     <div  class="panel panel-default">
                         <div class="panel-heading">
@@ -147,6 +152,8 @@
                         </div>
                     </div>
                 </div>
+
+                <!--配置运行-->
                 <div class="col-md-5">
                     <div style="height: 600px" class="panel panel-default">
                         <div class="panel-heading">
@@ -158,9 +165,9 @@
                                 </ul>
                             </h3>
                         </div>
-                        <div class="panel-body">
+                        <div *ngIf="selectedTestsample" class="panel-body">
                             <div *ngIf="controlNav=='config'">
-                                <h3 *ngIf="selectedTestsample">{{selectedTestsample.name}}运行配置</h3>
+                                <h3>{{selectedTestsample.name}}运行配置</h3>
                                 <form class="form-horizontal" role="form">
                                     <div *ngIf="selectedTestsample" class="form-group col-md-offset-1 col-md-10">
                                         <label for="config" class="control-label">运行参数</label>
@@ -209,23 +216,61 @@
                                 </button>
                             </div>
                             <div *ngIf="controlNav=='history'">
-                                <h3>{{selectedSample}}编辑脚本</h3>
-                                <form id="form-edit2">
-                                    <div class="form-group">
-                                        <label for="nameEdit">用例描述</label>
-                                        <input type="text" class="form-control" id="nameEdit2">
+                                <div style="overFlow-y:scroll;width:100%;height: 510px" class="panel-body">
+                                    <div class="table-wrapper ">
+                                    <table class="table">
+                                        <thead>
+                                        <tr>
+                                            <th>
+                                                状态
+                                            </th>
+                                            <th>
+                                                创建日期
+                                            </th>
+                                            <th>
+                                                设备ID
+                                            </th>
+                                            <th>
+                                                结果
+                                            </th>
+                                            <th>
+                                                删除
+                                            </th>
+                                        </tr>
+                                        </thead>
+                                        <tbody *ngFor="let element of testrunnerList">
+                                        <tr>
+                                            <th>
+                                                <div *ngIf="element.state=='stop'">
+                                                    <button type="button" class="btn btn-warning">S</button>
+                                                </div>
+                                                <div *ngIf="element.state=='running'">
+                                                    <button type="button" class="btn btn-success">R</button>
+                                                </div>
+                                            </th>
+                                            <th>
+                                                <button type="button" class="btn btn-success">{{transDate(element.create_at)}}</button>
+                                            </th>
+                                            <th>
+                                                <button type="button" class="btn btn-info">{{element.deviceId}}</button>
+                                            </th>
+                                            <th>
+                                                <button type="button" class="btn btn-info" (click)="gotoDetail(element)">结果</button>
+                                            </th>
+                                            <th>
+                                                <button type="button" class="btn btn-danger">删除</button>
+                                            </th>
+                                        </tr>
+                                        </tbody>
+                                    </table>
                                     </div>
-                                    <div class="form-group">
-                                        <label for="actions2">动作</label>
-                                        <textarea class="form-control" rows="15" id="actions2">
-                                        </textarea>
-                                    </div>
-                                </form>
+                                </div>
                             </div>
 
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
         <!-- Test Plan-->
@@ -268,11 +313,14 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-3 control-label" for="label">
+                        <label class="col-sm-3 control-label">
                             测试计划标签
                         </label>
                         <div class="col-sm-9">
-                            <input [(ngModel)]="createTestplan.tag" [ngModelOptions]="{standalone: true}" type="text" class="form-control" id="label" placeholder="Monkey ; DFS ; 进化算法">
+                            <!--<input [(ngModel)]="createTestplan.tag" [ngModelOptions]="{standalone: true}" type="text" class="form-control" id="label" placeholder="Monkey ; DFS ; 进化算法">-->
+                            <select class="form-control" id="selectTestTag">
+                                <option *ngFor="let item of testTagList">{{item}}</option>
+                            </select>
                         </div>
                     </div>
                     <hr align=right width=500 color=#987cb9 size=1>
@@ -298,7 +346,7 @@
                 <form id="addSample" class="form-horizontal">
                     <div class="form-group">
                         <label for="name2" class="col-sm-3 control-label">
-                            测试计划名称
+                            测试用例名称
                         </label>
                         <div class="col-sm-9">
                             <input [(ngModel)]="createTestsample.name" [ngModelOptions]="{standalone: true}" type="text" class="form-control" id="name2">
@@ -306,7 +354,7 @@
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label" for="describe2">
-                            测试计划描述
+                            测试用例描述
                         </label>
                         <div class="col-sm-9">
                             <input [(ngModel)]="createTestsample.describe" [ngModelOptions]="{standalone: true}" type="text" class="form-control"  id="describe2">

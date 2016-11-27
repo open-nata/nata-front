@@ -10,5 +10,5 @@ export class Testplan{
     name:string;
     describe:string;
     manager:string;
-    tag:string;
+    tag:string;    //固定算法：选择
 }
