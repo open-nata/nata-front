@@ -61,17 +61,16 @@
                                 </th>
                                 <th>
                                     <div *ngIf="element.state=='stop'">
-                                        <button type="button" class="btn btn-info">结果</button>
+                                        <button type="button" class="btn btn-info" (click)="gotoResult(element)">结果</button>
 
-                                            <button type="button" class="btn btn-danger">
-                                                <a href="#modal_delete" data-toggle="modal">
-                                                删除</a>
-                                            </button>
+                                        <button href="#modal_delete" data-toggle="modal" type="button" class="btn btn-danger" (click)="deleteTest()">
+                                            删除
+                                        </button>
 
                                     </div>
                                     <div *ngIf="element.state=='running'">
                                         <button type="button" class="btn btn-info" (click)="gotoDetail(element)">查看运行</button>
-                                        <button type="button" class="btn btn-warning" (click)="gotoResult(element)">停止</button>
+                                        <button type="button" class="btn btn-warning">停止</button>
                                     </div>
                                 </th>
                             </tr>
@@ -100,10 +99,12 @@
                     <span class="btn btn-lg">
                         <span id="changeDisplay" class="glyphicon glyphicon-warning-sign"></span>
                     </span>
-                    此操作将永久删除文件，是否继续？
+                    此操作将永久删除该测试运行，是否继续？
                 </p>
-                <button style="margin-left: 80%" type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal">确定</button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="deleteTest()">确定</button>
             </div>
         </div>
     </div>

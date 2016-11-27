@@ -288,7 +288,7 @@ export class ProjectManagerComponent{
             .then(testrunner => this.testrunnerList.push(testrunner))
 
     }
-    
+
     /*控制页面:config,edit,history*/
     controlNav :string = 'config';
     selectNav(select:string):void{

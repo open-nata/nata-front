@@ -26,8 +26,6 @@ export class OutputComponent implements OnInit{
     resultMonkey = ['null'];
     imageUrl :string;
 
-
-
     ngOnInit():void{
 
         this.route.params.forEach((params:Params)=>{
@@ -39,7 +37,7 @@ export class OutputComponent implements OnInit{
     }
 
     /*页面选择*/
-    selectedPage:string = '1';
+    selectedPage:string = 'page5';
     selectActive(selected:string):void{
         this.selectedPage = selected;
         console.log(this.selectedPage)

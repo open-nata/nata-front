@@ -28,14 +28,6 @@ export class RunnerComponent implements OnInit{
     testrunner : Testrunner;
     resultMonkey = ['null'];
 
-    selected:string;
-
-    states=[1,2,3,4,5];
-
-    selectActive(selected:string){
-        this.selected = selected;
-    }
-
     ngOnInit():void{
         this.route.params.forEach((params:Params)=>{
             let id = params['id']
@@ -61,10 +53,6 @@ export class RunnerComponent implements OnInit{
     /*获取运行时刻的data*/
     getData():void{
 
-        let flag :Boolean = false;
-        if(this.testrunner.state == 'running')
-            flag = true;
-
         setInterval(()=>{
 
             var tableElement2 = document.getElementById('result');
@@ -74,8 +62,10 @@ export class RunnerComponent implements OnInit{
                 .then(test =>{
                     this.testrunner = test
                     this.resultMonkey = this.testrunner.resultMonkey;
-                    if(this.testrunner.state == 'stop')
-                        return;
+                    if(this.testrunner.state == 'stop'){
+                        console.log("运行结束啦啦啦～")
+                        alert("运行结束啦~")
+                    }
                 })
         },2000)
 

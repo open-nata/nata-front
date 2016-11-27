@@ -24,9 +24,9 @@ export class RunnerListComponent implements OnInit{
     constructor(
         private router:Router,
         private testService:TestrunnerService
-
     ){}
 
+    /*初始化：这里应该使用分页机制，下次修改*/
     ngOnInit():void{
         this.getList();
     }
@@ -35,7 +35,7 @@ export class RunnerListComponent implements OnInit{
     getList():void{
         this.testService.getList()
             .then(testList => {
-                this.testrunnerList = testList;
+                this.testrunnerList = testList.reverse();
             });
     }
 
@@ -57,5 +57,10 @@ export class RunnerListComponent implements OnInit{
         const id = runner._id;
         console.log('Testrunner '+id);
         this.router.navigate(['result',id])
+    }
+
+    /*删除一次具体的测试*/
+    deleteTest():void{
+        console.log("删除")
     }
 }
