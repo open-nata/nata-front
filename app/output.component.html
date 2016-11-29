@@ -32,8 +32,8 @@
                             <label style="color: royalblue">设备使用</label>
                             {{testrunner.deviceId}}
                         </div>
-                        <button type="button" class="btn btn-info" >结果保存(Github)</button>
-                        <button type="button" class="btn btn-warning">返回</button>
+                        <button type="button" class="btn btn-info" (click)="saveGithub()">结果保存(Github)</button>
+                        <button type="button" class="btn btn-warning" (click)="goBack()">返回</button>
                         <div style="margin-top: 50px" class="thumbnail">
                             <img src={{imageUrl}} alt="logo" style="height: 350px;width: 500px;">
                         </div>

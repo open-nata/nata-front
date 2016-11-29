@@ -64,7 +64,7 @@ export class RunnerComponent implements OnInit{
                     this.resultMonkey = this.testrunner.resultMonkey;
                     if(this.testrunner.state == 'stop'){
                         console.log("运行结束啦啦啦～")
-                        alert("运行结束啦~")
+                        //alert("运行结束啦~")
                     }
                 })
         },2000)

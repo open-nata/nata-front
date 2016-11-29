@@ -66,11 +66,11 @@ export class TestrunnerService{
 
 
     /*保存结果到Github数据库*/
-    save(testid:string):Promise<Testrunner>{
-        const _url = `${this.url}/api/testrunner/${testid}`;
+    save(testid:string):Promise<any>{
+        const _url = `${this.url}/api/testrunner/${testid}/save`;
         return this.http.post(_url,JSON.stringify({testid:testid}),{headers:this.headers})
             .toPromise()
-            .then(res => res.json())
+            .then(res => res.text())
             .catch(this.handleError)
     }
 

@@ -53,7 +53,15 @@ export class OutputComponent implements OnInit{
             })
     }
 
-
+    /*将结果持久化到github：问题*/
+    saveGithub(){
+        this.service.save(this.testid)
+            .then(res =>{
+                alert("保存成功")
+            },err=>{
+                alert("保存失败")
+            })
+    }
 
     goBack():void{
         this.location.back();
