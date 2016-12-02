@@ -12,6 +12,11 @@ Verify that you are running node v4.x.x or higher and npm 3.x.x or higher by run
     $ git clone https://github.com/open-nata/nata-front
     $ cd nata-front && npm install
 ```
+after execute 'npm install' , may also need to execute the following command to install typings
+
+```bash
+    $ sudo npm run typings install
+```
 
 ## Use
 
