@@ -1,7 +1,3 @@
-/**
- * Created by ghj on 16-10-14.
- */
-
 import {Component,OnInit} from '@angular/core';
 
 import {Router} from '@angular/router';
@@ -9,19 +5,23 @@ import {Router} from '@angular/router';
 import {Project} from './service/project';
 import {ProjectService} from './service/project.service';
 
-// 封面上传
+/*封面上传组件*/
 import {FileUploader} from 'ng2-file-upload';
+
+import {Configuration} from './service/configuration'
 
 @Component({
     moduleId:module.id,
     selector:'projects',
     templateUrl:'projects.component.html',
-    styleUrls:['projects.component.css']
 })
 
 export class ProjectsComponent implements OnInit{
     //封面上传
-    private URL = 'http://localhost:8080/images';
+    private flag = false;
+
+    private URL = Configuration.url+'/images';
+    //private URL = 'http://localhost:8080/images';
     public uploader:FileUploader = new FileUploader({url: this.URL});
 
     constructor(
@@ -37,7 +37,7 @@ export class ProjectsComponent implements OnInit{
         name:'project_name',
         describe:'describe_something',
         manager:'project_manager',
-        imageUrl:'imageUrl'  //project_name
+        imageUrl:'imageUrl'
     };
 
 
@@ -56,34 +56,31 @@ export class ProjectsComponent implements OnInit{
 
     /*创建项目*/
     createProject():void{
-        this.create_project.imageUrl = `http://localhost:8080/images/${this.create_project.name}.png`;
+        if(!this.flag)
+            return alert("请先上传封面")
 
-        console.log(this.create_project);
+        this.create_project.imageUrl = `${Configuration.url}/images/${this.create_project.name}.png`;
 
         this.projectService
             .createProject(this.create_project)
             .then(project => this.projectList.push(project),
-                err=>{
-                    alert("请检查创建的项目名称")
-            })
+                err=>alert("请检查创建的项目"))
     }
 
     /*上传项目的封面*/
     upload():void{
-        console.log('Upload Start');
 
         this.uploader.onBeforeUploadItem = (item) =>{
             item.withCredentials = false;
-            console.log(item.file.name)
             item.file.name = this.create_project.name+'.png';
-            console.log(item.file.name)
+            console.log('封面名称'+item.file.name)
         }
-        this.uploader.uploadAll();
-        console.log('Upload end');
+        this.uploader.uploadAll()
+        this.flag = true
     }
 
-    /*Route to a project*/
+    /*查看一个具体的项目详细内容*/
     gotoProjectDetail(element:Project):void{
-        this.router.navigate(['/projectManager',element.name]);
+        this.router.navigate(['/project-manager',element.name]);
     }
 }

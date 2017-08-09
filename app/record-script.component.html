@@ -1,0 +1,138 @@
+<div id="recordTestcase" style="height:1000px;background: url(/images/backgroud.jpg);background-size: cover">
+    <!--设备屏幕-->
+    <!--两个重叠的画布，其中一个用于显示minicap的画面；-->
+    <!--另一个是选择框的画布-->
+    <div style="padding-top: 10px;padding-left: 10px;">
+    <div style="width: 390px;float: left;">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">设备屏幕 360 x 640
+                    <span id="refresh" class="text-danger ion-android-cancel pull-right" (click)="refresh()" > 刷新 </span>
+                </h3>
+            </div>
+            <div style="height:710px;" class="panel-body" id="container">
+                <canvas style="position: absolute;top:120px" id="canvas-device" width="360" height="640"></canvas>
+                <canvas style="position: absolute;top:120px" id="canvas-wrapper" width="360" height="640"></canvas>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <!--控制台-->
+    <div style="margin-left: 380px" class="container-fluid">
+        <div class="row">
+            <div class="col-md-10">
+                <!--控制台面板和动作获取面板-->
+                <!--<div style="width: 600px;float: left">-->
+                <div style="float: left">  
+                    <!--控制台-->
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">控制台<span *ngIf="activity">{{activity.activity}}</span></h3>
+                        </div>
+                        <div class="panel-body" style="padding: 0">
+                            <!--制台的Button组-->
+                            <div class="btn-group btn-group-justified" role="group">
+                                <!--<div class="btn-group" role="group">-->
+                                    <!--<button type="button" class="btn btn-primary"-->
+                                            <!--style="border-radius : 0">-->
+                                        <!--<span class="glyphicon glyphicon-pause"> 暂停录制</span>-->
+
+                                    <!--</button>-->
+                                <!--</div>-->
+                                <div class="btn-group" role="group">
+                                    <button type="button" class="btn btn-primary"
+                                            style="border-radius : 0" (click)="goBack()">
+                                        <span class="glyphicon glyphicon-stop"> 取消录制</span>
+
+                                    </button>
+                                </div>
+                                <div class="btn-group " role="group">
+                                    <button type="button" class="btn btn-primary"
+                                            style="border-radius : 0">
+                                        <span class="glyphicon glyphicon-send" (click)="saveSample()"> 提交用例</span>
+                                    </button>
+                                </div>
+                                <div class="btn-group " role="group">
+                                    <button type="button" class="btn btn-primary" id="btn-act"
+                                            style="border-radius : 0" (click)="restartApp()">
+                                        <span class="glyphicon glyphicon-refresh"> 重启应用</span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="btn-group btn-group-justified" role="group">
+                                <div class="btn-group" role="group">
+                                    <button type="button" class="btn btn-primary" id="btn-back"
+                                            style="border-radius : 0" (click)="fireBack()">
+                                        <span class="glyphicon glyphicon-step-backward"> 返回</span>
+
+                                    </button>
+                                </div>
+                                <div class="btn-group" role="group">
+                                    <button type="button" class="btn btn-primary" id="btn-m"
+                                            style="border-radius : 0" (click)="fireHome()">
+                                        <span class="glyphicon glyphicon-home"> 主页</span>
+
+                                    </button>
+                                </div>
+                                <div class="btn-group " role="group">
+                                    <button type="button" class="btn btn-primary" id="btn-finish"
+                                            style="border-radius : 0" (click)="fireMenu()">
+                                        <span class="glyphicon glyphicon-unchecked"> 选项</span>
+                                    </button>
+                                </div>
+
+                                <div class="btn-group " role="group">
+                                    <button type="button" class="btn btn-primary" id="btn-testcase"
+                                            style="border-radius : 0" (click)="cleanData()" >
+                                        <span class="glyphicon glyphicon-exclamation-sign"> 清除数据</span>
+                                    </button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!--获取界面动作-->
+                    <div class="panel panel-default" >
+                        <div class="panel-heading">
+                            <h3 class="panel-title">
+                                界面动作
+                                <span class="glyphicon glyphicon-refresh pull-right" (click)="getActions()">获取界面动作</span>
+                            </h3>
+                        </div>
+                        <!--<div class="panel-body" style="padding: 0;" id="action-panel">-->
+                            <!---->
+                        <!--</div>-->
+
+                        <div style="overFlow-y:scroll;width:100%;height: 150px" class="panel-body">
+                            <div *ngFor="let element of actionList">
+                                <button  class="col-md-4 btn btn-info" (mouseenter)="mouseover(element)" (click)="fireAction(element)">{{element}}</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--测试用例-->
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title pull-left"> 测试用例</h3>
+                            <button id="btn-clear" class="btn btn-default pull-right btn-sm" (click)="removeAll()">清除所有动作</button>
+                            <button id="btn-clear-last" class="btn btn-default pull-right btn-sm" style="margin-right: 5px" (click)="removeLast()">
+                                清除最近一条动作
+                            </button>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div style="overFlow-y:scroll;height: 330px" class="panel-body">
+                            <ul class="list-group" id="testcase">
+                                <li *ngFor="let element of resultTrans" class="list-group-item">{{element}}</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

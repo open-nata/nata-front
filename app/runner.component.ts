@@ -28,6 +28,8 @@ export class RunnerComponent implements OnInit{
     testrunner : Testrunner;
     resultMonkey = ['null'];
 
+    webSocket;
+
     ngOnInit():void{
         this.route.params.forEach((params:Params)=>{
             let id = params['id']
@@ -36,6 +38,10 @@ export class RunnerComponent implements OnInit{
         })
 
         this.minicap()
+    }
+
+    ngOnDestroy():void{
+        this.webSocket.close();
     }
 
     /*获取详细信息*/
@@ -53,7 +59,7 @@ export class RunnerComponent implements OnInit{
     /*获取运行时刻的data*/
     getData():void{
 
-        setInterval(()=>{
+        var code = setInterval(()=>{
 
             var tableElement2 = document.getElementById('result');
             tableElement2.scrollTop = tableElement2.scrollHeight;
@@ -65,6 +71,8 @@ export class RunnerComponent implements OnInit{
                     if(this.testrunner.state == 'stop'){
                         console.log("运行结束啦啦啦～")
                         //alert("运行结束啦~")
+                        clearInterval(code);
+                        console.log('Hello')
                     }
                 })
         },2000)
@@ -82,6 +90,9 @@ export class RunnerComponent implements OnInit{
         var g = canvas.getContext('2d')
 
         var ws = new WebSocket('ws://localhost:8080', 'minicap')
+
+        this.webSocket = ws;
+
         ws.binaryType = 'blob'
 
         ws.onclose = function() {

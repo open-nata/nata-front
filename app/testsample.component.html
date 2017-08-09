@@ -1,0 +1,211 @@
+<!--测试用例查看界面：打算分离出来-->
+
+<div id = "testsample" style="height:1000px;background: url(/images/backgroud.jpg);background-size: cover">
+    <div class="container-fluid">
+        <div class="row">
+            <!--测试用例的详细信息-->
+            <div class="col-md-4" >
+                <div class="panel panel-default" style="height: 700px">
+                    <div class="panel-heading">
+                        <div class="panel-title">
+                            <h4>测试用例详细信息</h4>
+                        </div>
+                    </div>
+                    <div *ngIf="testsample" class="panel-body">
+                        <div style="font-size: large">
+                            <label style="color: royalblue">测试项目</label>
+                            {{testsample.project}}
+                        </div>
+                        <div style="font-size: large">
+                            <label style="color: royalblue">测试版本</label>
+                            {{testsample.version}}
+                        </div>
+                        <div style="font-size: large">
+                            <label style="color: royalblue">测试计划</label>
+                            {{testsample.testplan}}
+                        </div>
+                        <div style="font-size: large">
+                            <label style="color: royalblue">测试用例</label>
+                            {{testsample.name}}
+                        </div>
+                        <div style="font-size: large">
+                            <label style="color: royalblue">测试算法</label>
+                            {{testsample.tag}}
+                        </div>
+                        <div style="font-size: large">
+                            <label style="color: royalblue">负责人员</label>
+                            {{testsample.manager}}
+                        </div>
+                        <div style="font-size: large">
+                            <label style="color: royalblue">用例描述</label>
+                            {{testsample.describe}}
+                        </div>
+                        <div style="margin-top: 50px" class="thumbnail">
+                            <img src={{imageUrl}} alt="logo" style="height: 350px;width: 600px;">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!--测试用例的生成器与执行器界面-->
+            <!--配置运行-->
+            <div *ngIf="testsample" class="col-md-6">
+                <div style="border-color: #d4d4d4; height: 700px" class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            <ul class="nav nav-pills" role="tablist">
+                                <li *ngIf="tagSelect()" style="text-align: center" role="presentation" [ngClass]="{'active': pageSelect=='page1'}"><a (click)="selectPage('page1')">配置运行生成用例</a></li>
+                                <li *ngIf="!tagSelect()" style="text-align: center" role="presentation" [ngClass]="{'active': pageSelect=='page2'}"><a (click)="selectPage('page2')">编辑脚本修改用例</a></li>
+                                <li *ngIf="testsample.tag!='录制脚本'" style="text-align: center" role="presentation" [ngClass]="{'active': pageSelect=='page3'}"><a (click)="selectPage('page3')">测试用例执行记录</a></li>
+                            </ul>
+                        </h3>
+                    </div>
+                    <div *ngIf="testsample" class="panel-body">
+
+                        <div *ngIf="pageSelect=='page1'">
+                            <p class="text-success">{{testsample.tag}}运行配置</p>
+                            <p class="text-info" *ngIf="testsample.tag=='Monkey'" >该方式是通过随机Monkey的方式，需要配置monkey的运行参数，如：-v 100 表示其参数为 adb shell monkey -v 100</p>
+                            <p class="text-info" *ngIf="testsample.tag=='DFS遍历'" >该方式是通过DFS遍历的方式，需要配置的运行参数为action长度的限制</p>
+                            <p class="text-warning" *ngIf="apk">该apk版本配置的启动包名为{{apk.package}}</p>
+                            <p class="text-danger" >请确保配置的参数正确性</p>
+                            <form class="form-horizontal" role="form">
+                                <div class="form-group col-md-offset-1 col-md-11">
+                                    <label for="config" class="control-label">运行参数</label>
+                                    <input style="margin-top: 15px" [(ngModel)]="testsample.config" [ngModelOptions]="{standalone: true}"type="text" class="form-control" id="config" placeholder="monkey">
+                                </div>
+                                <div class="form-group col-md-offset-1 col-md-11">
+                                    <label >选择设备</label>
+
+                                    <select style="margin-top: 15px" class="form-control" id="selectDevice">
+                                        <option *ngFor="let item of deviceList" id="item.id">{{item.id}}</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-offset-1 col-md-6">
+                                    <label>选择前置脚本</label>
+
+                                    <select style="margin-top:15px" class="form-control" [ngModel]="selectedTestplan" (ngModelChange)="selectTestplan($event)"
+                                            [ngModelOptions]="{standalone: true}">
+                                        <option>测试计划</option>
+                                        <option *ngFor="let element of testplanList">{{element.name}}</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <select style="margin-top:45px;" class="form-control" [ngModel]="selectedTTestsample" (ngModelChange)="selectTestsample($event)"
+                                            [ngModelOptions]="{standalone: true}">
+                                        <option>测试用例</option>
+                                        <option *ngFor="let element of testsampleList">{{element.name}}</option>
+
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-offset-1 col-md-11">
+                                    <label >完整参数(检查)</label>
+                                    <div *ngIf="selectedDevice">
+                                        <p class="text-info" *ngIf="testsample.tag=='Monkey'">adb shell -s {{selectedDevice.id}} monkey {{testsample.config}}</p>
+                                        <p class="text-info" *ngIf="testsample.tag=='DFS遍历'">DFS算法的长度限制为{{testsample.config}}</p>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-offset-1 col-md-10" style="position: absolute;bottom: 20px">
+                                    <button type="button" class="btn btn-default" (click)="updateTestsample()">
+                                        保存用例配置
+                                    </button>
+                                    <button type="button" class="btn btn-primary" (click)="generateTestsample()">
+                                        运行生成用例
+                                    </button>
+                                    <button *ngIf="testsample.tag === 'DFS遍历'" type="button" class="btn btn-danger" (click)="replayTestsample()">
+                                        查看用例详情
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div *ngIf="pageSelect=='page2'">
+                            <p class="text-info">该方式通过手工录制脚本的方式，生成的脚本表现为一系列的动作；在脚本录制之后可以重新按照格式进行编辑脚本</p>
+                            <form id="form-edit">
+                                <div class="form-group">
+                                    <label >选择设备</label>
+                                    <select class="form-control" id="selectDevice2">
+                                        <option *ngFor="let item of deviceList">{{item.id}}</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>动作</label>
+                                    <div style="overFlow-y:scroll;height: 430px;border: 1px solid #d4d4d4">
+                                        <ul class="list-group" id="testcase">
+                                            <li *ngFor="let element of stringToArray()" class="list-group-item">
+                                                {{element}}</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </form>
+
+                            <div class="form-group" style="position: absolute;bottom: 10px">
+                                <button class="btn btn-default" (click)="gotoRecordScript()">录制脚本
+                                </button>
+                                <button class="btn btn-info" (click)="gotoEditScript()">编辑脚本
+                                </button>
+                                <button class="btn btn-primary" (click)="gotoReplayScript()">运行脚本
+                                </button>
+                            </div>
+                        </div>
+
+                        <div *ngIf="pageSelect=='page3'" >
+                            <div style="overFlow-y:scroll;width:100%;height: 620px" class="panel-body">
+                                <div class="table-wrapper ">
+                                    <table class="table">
+                                        <thead>
+                                        <tr>
+                                            <th>
+                                                状态
+                                            </th>
+                                            <th>
+                                                创建日期
+                                            </th>
+                                            <th>
+                                                设备ID
+                                            </th>
+                                            <th>
+                                                详情
+                                            </th>
+                                            <th>
+                                                删除
+                                            </th>
+                                        </tr>
+                                        </thead>
+                                        <tbody *ngFor="let element of testrunnerList">
+                                        <tr>
+                                            <th>
+                                                <div *ngIf="element.state=='stop'">
+                                                    <button type="button" class="btn btn-warning">S</button>
+                                                </div>
+                                                <div *ngIf="element.state=='running'">
+                                                    <button type="button" class="btn btn-success">R</button>
+                                                </div>
+                                            </th>
+                                            <th>
+                                                <button type="button" class="btn btn-success">{{transDate(element.create_at)}}</button>
+                                            </th>
+                                            <th>
+                                                <button type="button" class="btn btn-info">{{element.deviceId}}</button>
+                                            </th>
+                                            <th>
+                                                <button type="button" class="btn btn-info" (click)="gotoDetail(element)">结果</button>
+                                            </th>
+                                            <th>
+                                                <button type="button" class="btn btn-danger" (click)="deleteTestrunner(element)">删除</button>
+                                            </th>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!--．．．．．-->
+
+        </div>
+    </div>
+</div>

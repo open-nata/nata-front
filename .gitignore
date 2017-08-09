@@ -1,3 +1,6 @@
+design
+.DS_Store
+images
 *.log
 node_modules
 typings

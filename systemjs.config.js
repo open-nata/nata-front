@@ -26,7 +26,9 @@
       'angular-in-memory-web-api': 'npm:angular-in-memory-web-api',
       'zrenderjs':  'npm:zrenderjs',
       'echarts':  'npm:echarts',
-      'ng2-file-upload':'npm:ng2-file-upload'
+      'ng2-file-upload':'npm:ng2-file-upload',
+      'codemirror':'npm:codemirror',
+      'ng2-codemirror':"npm:ng2-codemirror"
     },
     // packages tells the System loader how to load when no filename and/or no extension
     packages: {
@@ -49,9 +51,17 @@
         main:'./echarts.js',
         defaultExtension: 'js'
       },
-      'ng2-file-upload':{
-        main:'./ng2-file-upload.js',
-        defaultExtension:'js'
+      'ng2-file-upload': {
+          main: './ng2-file-upload.js',
+          defaultExtension: 'js'
+      },
+      'codemirror':{
+          main: './lib/codemirror.js',
+          defaultExtension: 'js'
+      },
+      'ng2-codemirror':{
+          main: './lib/index.js',
+          defaultExtension: 'js'
       }
     }
   });

@@ -1,0 +1,82 @@
+<div style="height:1000px;background: url(/images/backgroud.jpg);background-size: cover">
+<!--<div id="runner" style="background: url(/images/backgroud.jpg);background-size: cover">-->
+    <!--设备屏幕-->
+    <div style="width: 390px; float: left;height: 700px">
+        <div class="panel panel-default" style="height: 100%;">
+            <div class="panel-heading">
+                <h3 class="panel-title">设备屏幕 360 x 640
+                    <span id="refresh" class="text-danger ion-android-cancel pull-right" (click)="refresh()" > 刷新 </span>
+                </h3>
+            </div>
+            <div class="panel-body" style="height: 100%">
+                <canvas id="canvas-device" width="360" height="640"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <div id='console' style="margin-left: 400px;height: 700px;">
+        <div class="container-fluid">
+            <div class="row" >
+                <!--控制台面板-->
+                <div style="border-color: #d4d4d4;" class="panel panel-default">
+                    <!--<div class="panel-heading">-->
+                        <!--<h3 style="margin-left: 30px" class="panel-title">控制台</h3>-->
+                    <!--</div>-->
+                    <div class="panel-heading" >
+                        <div style="margin-left: 30px" class="btn-group">
+                            <h4 style="display: inline" class="pull-left">控制台</h4>
+                            <button style="margin-left: 30px;width: 100px" type="button" class="btn btn-danger" (click)="restartApp()">
+                                重启应用
+                            </button>
+                            <button style="width: 100px" type="button" class="btn btn-primary" (click)="changeFlag(true);startTest()">
+                                开始运行
+                            </button>
+                            <button style="width: 100px" type="button" class="btn btn-info" (click)="stopTest()">
+                                结束运行
+                            </button>
+                            <button style="width: 150px" type="button" class="btn btn-warning" (click)="changeFlag(false)">
+                                查看规则
+                            </button>
+                        </div>
+                    </div>
+
+
+                    <!--运行日志-->
+                    <div *ngIf="flag" class="panel-body" style="padding-bottom: 0px;">
+                        <!--<div class="panel-heading">-->
+                            <h3 class="panel-title">运行过程</h3>
+                        <!--</div>-->
+                        <div id="result" style="overFlow-y:scroll;width:100%;height: 550px" >
+                            <div class="table-wrapper ">
+                                <table class="table table-striped" id="table_result">
+                                    <tbody >
+                                    <tr *ngFor="let element of resultMonkey">
+                                        {{element}}
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!--查看修改规则-->
+                    <div *ngIf="!flag" class="panel-body" style="padding-bottom: 0px">
+                        <h3 class="panel-title">编辑运行规则</h3>
+                        <div>
+                            <codemirror [(ngModel)]="content" [config]="config" style="margin: 10px"></codemirror>
+                        </div>
+                        <div class="btn-group">
+                            <button style="margin-left: 10px;width: 100px" type="button" class="btn btn-danger" (click)="saveConfig()">
+                                保存修改
+                            </button>
+                            <button style="width: 100px" type="button" class="btn btn-success" (click)="changeFlag(true)">
+                                返回运行
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

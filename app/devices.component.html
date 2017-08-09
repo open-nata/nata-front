@@ -1,11 +1,14 @@
 <!--设备组件-->
-<div class="container-fluid">
+<div style="height:1000px;background: url(/images/backgroud.jpg);background-size: cover">
+
+<!--设备的导航以及统计信息-->
+<div class="container-fluid" style="margin-bottom:0px;padding-bottom: 0px">
     <div class="row">
-        <div class="col-md-offset-1 col-md-9">
-            <div class = "panel panel-default ">
+        <div class="col-md-offset-1 col-md-9" >
+            <div class = "panel panel-default " style="margin-bottom: 2px">
                 <div class="panel-heading">
                     <h2 class="panel-title">设备
-                        <span style="margin-left: 40px" class="btn-group">
+                        <span style="margin-left: 100px" class="btn-group">
                             <button type="button" class="btn btn-default" (click)="selectDisplay(false)">
                                 <span class="glyphicon glyphicon-time"></span>
                                 设备管理
@@ -23,19 +26,19 @@
 </div>
 
 <!--设备总览-->
-<div  id="devices">
+<div  id="devices" style="margin-top: 0px;padding-top: 0px">
     <div class="container-fluid" *ngIf="display">
         <div id="device-sum" class="row">
-            <div class="col-md-offset-1 col-md-3">
+            <div class="col-md-offset-1 col-md-3" style="padding-right: 0px">
                 <div class="panel panel-default">
                     <h3 style="color: royalblue;text-align: center ">
                         <span class="glyphicon glyphicon-star "></span>
                         <span *ngIf="devices">{{devices.length}}</span>
                     </h3>
-                    <h3 style="text-align: center">设备总数</h3>
+                    <h3 style="text-align: center;">设备总数</h3>
                 </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-3" style="padding-left:0px;padding-right: 0px;">
                 <div class="panel panel-default">
                     <h3 style="color: royalblue;text-align: center ">
                         <span class="glyphicon glyphicon-star-empty"></span>
@@ -44,7 +47,7 @@
                     <h3 style="text-align: center">在线设备</h3>
                 </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-3" style="padding-left: 0px;padding-top: 0px">
                 <div class="panel panel-default">
                     <h3 style="color: royalblue;text-align: center ">
                         <span class="glyphicon glyphicon-fire "></span>
@@ -55,14 +58,14 @@
             </div>
         </div>
         <div id="device-list" class="row">
-            <div class="col-md-offset-1 col-md-6">
+            <div class="col-md-offset-1 col-md-6" style="padding-right: 0px;">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title">
                            设备列表
                         </h3>
                     </div>
-                    <div class = "panel-body">
+                    <div class = "panel-body" style="height: 700px;overFlow-y:scroll">
                         <div *ngFor="let element of devices">
                             <div class="col-md-3" (click)="showDetail(element)">
                                 <div class="thumbnail">
@@ -76,14 +79,15 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-3" style="padding-left: 0px">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title">
                             设备详细信息
                         </h3>
                     </div>
-                    <div class="panel-body" *ngIf="selectedDevice">
+                    <div class="panel-body" style="height: 700px">
+                        <div *ngIf="selectedDevice">
                         <div>
                             <label>DeviceID:</label>
                             {{selectedDevice.id}}
@@ -119,20 +123,21 @@
                         <div>
                             <div class="thumbnail">
                                 <!--<img src="images/zte.jpg" alt="device-png">-->
-                                <img src="{{url}}{{selectedDevice.tag}}.png" alt="device-png">
+                                <img src="{{url}}{{selectedDevice.tag}}.png" style="width: 500px;height: 300px" alt="device-png">
                                 <div style="text-align: center;color: #337ab7" class="caption">
                                     {{selectedDevice.id}}
                                 </div>
                             </div>
                         </div>
-                        <div>
-                            <label>设备标签</label>
-                            <!--<input [(ngModel)]="selectedDevice.tag" placeholder="default is zte">-->
-                            <select class="form-control" id="selectDeviceTag">
-                                <option *ngFor="let item of deviceTagList" >{{item}}</option>
-                            </select>
-                            <button class="btn btn-primary" (click)="updateDevice()">保存修改</button>
-                        </div>
+                        <!--<div>-->
+                            <!--<label>设备标签</label>-->
+                            <!--&lt;!&ndash;<input [(ngModel)]="selectedDevice.tag" placeholder="default is zte">&ndash;&gt;-->
+                            <!--<select class="form-control" id="selectDeviceTag">-->
+                                <!--<option *ngFor="let item of deviceTagList" >{{item}}</option>-->
+                            <!--</select>-->
+                            <!--<button class="btn btn-primary" (click)="updateDevice()">保存修改</button>-->
+                        <!--</div>-->
+                    </div>
                     </div>
                 </div>
             </div>
@@ -144,7 +149,7 @@
 <div id="deviceManager">
     <div class="container-fluid" *ngIf="!display">
         <div class="row">
-            <div class="col-md-offset-1 col-md-3">
+            <div class="col-md-offset-1 col-md-3" style="padding-right: 2px">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title">在线设备<span id="refresh-span"
@@ -183,8 +188,8 @@
                 </div>
             </div>
 
-            <div class="col-md-6">
-                <div class="panel panel-default">
+            <div class="col-md-6" style="padding-left: 0px">
+                <div class="panel panel-default" >
                     <div class="panel-heading">
                         <h3 class="panel-title">已登记设备列表</h3>
                     </div>
@@ -233,7 +238,9 @@
         </div>
     </div>
 </div>
+</div>
 
+<!--删除设备的模态框-->
 <div id="modal_del_device" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">

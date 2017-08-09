@@ -53,6 +53,20 @@ export class OutputComponent implements OnInit{
             })
     }
 
+    getActivityCount():number{
+        const activity = this.testrunner.activityList
+        let result = []
+        activity.forEach(element =>{
+            if(result.indexOf(element) == -1)
+                result.push(element)
+        })
+        return result.length
+    }
+
+    getActionCount():number{
+        return this.testrunner.actionList.length
+    }
+
     /*将结果持久化到github：问题*/
     saveGithub(){
         this.service.save(this.testid)
@@ -63,6 +77,7 @@ export class OutputComponent implements OnInit{
             })
     }
 
+    /*路由*/
     goBack():void{
         this.location.back();
     }

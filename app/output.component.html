@@ -1,6 +1,5 @@
 <!--结果查看界面：打算分离出来-->
-
-<div id = "output">
+<div id = "output" style="height:1000px;background: url(/images/backgroud.jpg);background-size: cover">
     <div class="container-fluid">
         <div class="row">
             <!--测试的详细信息-->
@@ -32,8 +31,8 @@
                             <label style="color: royalblue">设备使用</label>
                             {{testrunner.deviceId}}
                         </div>
-                        <button type="button" class="btn btn-info" (click)="saveGithub()">结果保存(Github)</button>
-                        <button type="button" class="btn btn-warning" (click)="goBack()">返回</button>
+                        <!--<button type="button" class="btn btn-info" (click)="saveGithub()">结果保存(Github)</button>-->
+                        <button type="button" class="btn btn-warning" (click)="goBack()">返回测试用例界面</button>
                         <div style="margin-top: 50px" class="thumbnail">
                             <img src={{imageUrl}} alt="logo" style="height: 350px;width: 500px;">
                         </div>
@@ -47,35 +46,82 @@
                     <div class="panel-heading">
                         <div class="panel-title">
                             <ul class="nav nav-pills" role="tablist">
-                                <li role="presentation" [ngClass]="{'active': selectedPage=='page1'}"><a (click)="selectActive('page1')">统计数据</a></li>
-                                <li role="presentation" [ngClass]="{'active': selectedPage=='page2'}"><a (click)="selectActive('page2')">树形图</a></li>
-                                <li role="presentation" [ngClass]="{'active': selectedPage=='page3'}"><a (click)="selectActive('page3')">Crash</a></li>
-                                <li role="presentation" [ngClass]="{'active': selectedPage=='page4'}"><a (click)="selectActive('page4')">Exception</a></li>
-                                <li role="presentation" [ngClass]="{'active': selectedPage=='page5'}"><a (click)="selectActive('page5')">Log</a></li>
+                                <li role="presentation" [ngClass]="{'active': selectedPage=='page1'}"><a (click)="selectActive('page1')">综合数据</a></li>
+                                <li role="presentation" [ngClass]="{'active': selectedPage=='page2'}"><a (click)="selectActive('page2')">Action列表</a></li>
+                                <li role="presentation" [ngClass]="{'active': selectedPage=='page3'}"><a (click)="selectActive('page3')">Activity列表</a></li>
+                                <!--<li role="presentation" [ngClass]="{'active': selectedPage=='page4'}"><a (click)="selectActive('page4')">Exception</a></li>-->
+                                <li role="presentation" [ngClass]="{'active': selectedPage=='page5'}"><a (click)="selectActive('page5')">Log日志</a></li>
                             </ul>
                         </div>
 
                     </div>
                     <div style="height: 680px" class="panel-body">
+
+                        <!--综合分析数据：可以因算法不同而异-->
                         <div *ngIf="selectedPage=='page1'">
-                            <h2>Hello1</h2>
+
+                            <div *ngIf="testrunner.tag === 'Monkey'" class="panel panel-default">
+                                <!--<div style="overFlow-y:scroll;width:100%;height: 650px" class="panel-body">-->
+
+                                    <!--<div class="table-wrapper ">-->
+                                        <!--<table class="table">-->
+                                            <!--<tbody>-->
+                                            <!--<tr>Monkey运行的seed提取为{{testrunner.seed}},可以根据seed进行再次运行</tr>-->
+                                            <!--<tr>Monkey的遍历的Activity的数量为{{getActivityCount()}}</tr>-->
+                                            <!--<tr>Monkey的遍历的Action的数量为{{getActionCount()}}</tr>-->
+                                            <!--</tbody>-->
+                                        <!--</table>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                                <p class="text-success">Monkey运行的seed提取为{{testrunner.seed}},可以根据seed进行再次运行</p>
+                                <p class="text-info">Monkey的遍历的Activity的数量为{{getActivityCount()}}</p>
+                                <p class="text-warning">Monkey的遍历的Action的数量为{{getActionCount()}}</p>
+                            </div>
+
+                            <div *ngIf="testrunner.tag === 'DFS遍历'" class="panel panel-default">
+
+                                <div style="overFlow-y:scroll;width:100%;height: 650px" class="panel-body">
+
+                                    <p class="text-success">DFS的遍历的Activity的数量为{{getActivityCount()}}</p>
+                                    <p class="text-info">DFS的遍历的Action的数量为{{getActionCount()}}</p>
+                                    <!--<div>-->
+                                        <!--<table class="table table-hover ">-->
+                                            <!--<thead>-->
+                                            <!--<tr>-->
+                                                <!--<th>-->
+                                                    <!--启动Act名-->
+                                                <!--</th>-->
+                                                <!--<th>-->
+                                                    <!--操作-->
+                                                <!--</th>-->
+                                            <!--</tr>-->
+                                            <!--</thead>-->
+                                            <!--<tbody>-->
+                                            <!--<tr *ngFor="let element of testrunner.activityPath">-->
+                                                <!--<td>-->
+                                                    <!--{{element.activity}}-->
+                                                <!--</td>-->
+                                                <!--<td>-->
+                                                    <!--<ul class="list-group">-->
+                                                        <!--<li *ngFor="let ele of element.actions" class="list-group-item">{{ele}}</li>-->
+                                                    <!--</ul>-->
+                                                <!--</td>-->
+                                            <!--</tr>-->
+                                            <!--</tbody>-->
+                                        <!--</table>-->
+                                    <!--</div>-->
+                                </div>
+                            </div>
                         </div>
+
+                        <!--Page2:Action分析-->
                         <div *ngIf="selectedPage=='page2'">
-                            <h2>Hello2</h2>
-                        </div>
-                        <div *ngIf="selectedPage=='page3'">
-                            <h2>Hello3</h2>
-                        </div>
-                        <div *ngIf="selectedPage=='page4'">
-                            <h2>Hello4</h2>
-                        </div>
-                        <div *ngIf="selectedPage=='page5'">
                             <div class="panel panel-default">
 
-                                <div id="result" style="overFlow-y:scroll;width:100%;height: 650px" class="panel-body">
+                                <div style="overFlow-y:scroll;width:100%;height: 650px" class="panel-body">
                                     <div class="table-wrapper ">
-                                        <table class="table" id="table_result">
-                                            <tbody *ngFor="let element of resultMonkey">
+                                        <table class="table" >
+                                            <tbody *ngFor="let element of testrunner.actionList">
                                             <tr>
                                                 {{element}}
                                             </tr>
@@ -85,6 +131,48 @@
                                 </div>
                             </div>
                         </div>
+
+                        <!--Page3:Activity分析-->
+                        <div *ngIf="selectedPage=='page3'">
+                            <div class="panel panel-default">
+
+                                <div style="overFlow-y:scroll;width:100%;height: 650px" class="panel-body">
+                                    <div class="table-wrapper ">
+                                        <table class="table">
+                                            <tbody *ngFor="let element of testrunner.activityList">
+                                            <tr>
+                                                {{element}}
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--Page4:exception分析-->
+                        <div *ngIf="selectedPage=='page4'">
+                            <h4>Exception分析</h4>
+                        </div>
+
+                        <!--Page5：日志记录-->
+                        <div *ngIf="selectedPage=='page5'">
+                            <div class="panel panel-default">
+
+                                <div style="overFlow-y:scroll;width:100%;height: 650px" class="panel-body">
+                                    <div class="table-wrapper ">
+                                        <table class="table" id="table_result">
+                                            <tbody >
+                                            <tr *ngFor="let element of resultMonkey">
+                                                {{element}}
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>

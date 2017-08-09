@@ -1,4 +1,4 @@
-<div id="project-manager">
+<div id="project-manager" style="height:1000px;background: url(/images/backgroud.jpg);background-size: cover">
     <div class="container-fluid">
 
         <!--项目头部-->
@@ -8,11 +8,11 @@
                     <div class="panel-heading">
                         <h2 class="panel-title">{{projectName}}
                             <span style="margin-left: 40px" class="btn-group">
-                                <button type="button" class="btn btn-default" (click)="displayTestPlan()">
+                                <button type="button" class="btn btn-default" (click)="selectPage('page1')">
                                     <span class="glyphicon glyphicon-time"></span>
                                     测试计划
                                 </button>
-                                <button type="button" class="btn btn-default"  (click)="displayApkManager()">
+                                <button type="button" class="btn btn-default"  (click)="selectPage('page2')">
                                     <span class="glyphicon glyphicon-open"></span>
                                     Apk管理
                                 </button>
@@ -32,20 +32,20 @@
                 </div>
             </div>
         </div>
+        <!--项目头部-->
 
         <!-- Apk Manager-->
-        <div *ngIf="!testplanPage" class="row">
+        <div *ngIf="pageSelect=== 'page2'" class="row">
             <div class="col-md-offset-1 col-md-10">
                 <div class = "panel panel-default">
                     <div class="panel-heading">
-                        <h2 class="panel-title">Apk列表</h2>
+                        <h2 class="panel-title">Apk列表
+                            <span style="color: dodgerblue" class = "glyphicon glyphicon-plus pull-right" href="#modal_addApkVersion" data-toggle="modal"></span></h2>
+
                     </div>
                     <table class="table table-hover">
                         <thead>
                         <tr>
-                            <th style="margin-left: 30px">
-                                日期
-                            </th>
                             <th>
                                 项目名称
                             </th>
@@ -56,64 +56,63 @@
                                 描述
                             </th>
                             <th>
+                                包名
+                            </th>
+                            <th>
+                                Activity
+                            </th>
+                            <th>
                                 操作
                             </th>
                         </tr>
                         </thead>
-                        <tbody *ngFor="let element of versionDisplay">
+                        <tbody *ngFor="let element of versionList">
                         <tr>
-                            <th style="margin-left: 30px">
-                                2016-1-3
-                            </th>
                             <th>
-                                畅行南通
+                                {{element.name}}
                             </th>
                             <th style="color: dodgerblue">
-                                <button>{{element}}</button>
+                                <button>{{element.version}}</button>
                             </th>
                             <th>
-                                {{element}}
+                                {{element.describe}}
                             </th>
                             <th>
-                                <span style="color: dodgerblue" class="btn btn-default">下载</span>
-                                <span style="color: red" class="btn btn-default">删除</span>
+                                {{element.package}}
+                            </th>
+                            <th>
+                                {{element.activity}}
+                            </th>
+                            <th>
+                                <span style="color: red" class="btn btn-default" (click)="deleteApk(element)">删除</span>
                             </th>
                         </tr>
                         </tbody>
                     </table>
-                    <nav>
-                        <ul class="pagination">
-                            <li><a (click)="prePage()">&laquo;</a></li>
-                            <li><a (click)="getVersions(startPage+1)">{{startPage+1}}</a></li>
-                            <li><a (click)="getVersions(startPage+2)">{{startPage+2}}</a></li>
-                            <li><a (click)="getVersions(startPage+3)">{{startPage+3}}</a></li>
-                            <li><a (click)="getVersions(startPage+4)">{{startPage+4}}</a></li>
-                            <li><a (click)="getVersions(startPage+5)">{{startPage+5}}</a></li>
-                            <li><a (click)="nextPage()">&raquo;</a></li>
-                        </ul>
-                    </nav>
                 </div>
             </div>
         </div>
         <!-- Apk Manager>
 
         <!-- Test Plan-->
-        <div *ngIf="testplanPage" class="row">
-            <div class="col-md-offset-1 col-md-10">
+        <div *ngIf="pageSelect=== 'page1'" class="row">
+            <!--<div class="col-md-offset-1 col-md-10">-->
 
                 <!--测试计划-->
-                <div  class="col-md-3">
+                <div  class="col-md-offset-1 col-md-4">
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <h2 class="panel-title">
                                 测试版本
                             <span  class="dropdown">
-                                <button  style="color: dodgerblue;margin-left: 20px" class="dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown">
-                                    {{selectedVersion}}
+                                <button  *ngIf="selectedVersion" style="color: dodgerblue;" class="dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown">
+                                    {{selectedVersion.version}}
                                     <span class="caret"></span>
                                 </button>
                                 <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu2">
-                                    <li *ngFor="let v of versions" role="presentation" (click)="selectVersion(v)"><a role="menuitem" tabindex="-1" (click)="selectVersion(v)">{{v}}</a></li>
+                                    <li *ngFor="let element of versionList" role="presentation" (click)="selectVersion(element)">
+                                        <a role="menuitem" tabindex="-1" (click)="selectVersion(element)">{{element.version}}</a>
+                                    </li>
                                 </ul>
                             </span>
                                 <span>
@@ -121,12 +120,14 @@
                             </span>
                             </h2>
                         </div>
-                        <div style="overFlow-y:scroll;height: 550px"  class="panel-body">
-                            <ul class="list-group">
+                        <div style="overFlow-y:scroll;height: 555px"  class="panel-body">
+                            <ul *ngIf="selectedVersion" class="list-group">
                                 <li *ngFor="let element of testplanList" id ="{{element.name}}" class="list-group-item " (click)="selectTestplan(element)">
+                                    <span class="badge" (click)="deleteTestplan(element)">删除</span>
                                     <span class="badge">{{element.tag}}</span>
                                     <span style="color: gray;margin-right: 10px" class="glyphicon glyphicon-calendar pull-left"></span>
                                     {{element.name}}
+
                                 </li>
                             </ul>
                         </div>
@@ -134,142 +135,55 @@
                 </div>
 
                 <!--测试用例-->
-                <div class="col-md-4">
-                    <div  class="panel panel-default">
+                <div class="col-md-6">
+                    <div class="panel panel-default">
                         <div class="panel-heading">
                             <h3 class="panel-title">
                                 用例列表
                                 <a href="#modal_addTestSample" data-toggle="modal" style="color: dodgerblue" class="glyphicon glyphicon-plus pull-right"></a>
                             </h3>
                         </div>
-                        <div style="overFlow-y:scroll;height: 550px" class="panel-body">
-                            <ul class="list-group">
-                                <li *ngFor="let element2 of testsampleList" id="sample{{element2.name}}" class="list-group-item" (click)="selectTestsample(element2)">
-                                    <span style="color: gray;margin-right: 10px" class="glyphicon glyphicon-calendar pull-left"></span>
-                                    {{element2.name}}
-                                </li>
-                            </ul>
+                        <div style="overFlow-y:scroll;height: 560px" class="panel-body">
+
+                            <table style="font-family:Lato;font-size: 14px" class="table table-hover">
+                                <thead>
+                                <tr>
+                                    <th>
+                                        名称
+                                    </th>
+                                    <th>
+                                        负责人
+                                    </th>
+                                    <th>
+                                        描述
+                                    </th>
+                                    <th>
+                                        操作
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody *ngFor="let element of testsampleList">
+                                <tr>
+                                    <th>
+                                        {{element.name}}
+                                    </th>
+                                    <th>
+                                        {{element.manager}}
+                                    </th>
+                                    <th>
+                                        {{element.describe}}
+                                    </th>
+                                    <th>
+                                        <button type="button" class="btn btn-xs btn-danger" (click)="deleteTestsample(element)">删除用例</button>
+                                        <button type="button" class="btn btn-xs btn-info" (click)="gotoTestsample(element)" >查看详细</button>
+                                    </th>
+                                </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
-                </div>
+                <!--</div>-->
 
-                <!--配置运行-->
-                <div class="col-md-5">
-                    <div style="height: 600px" class="panel panel-default">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">
-                                <ul class="nav nav-pills" role="tablist">
-                                    <li role="presentation" [ngClass]="{'active': controlNav=='config'}"><a (click)="selectNav('config')">配置运行</a></li>
-                                    <li role="presentation" [ngClass]="{'active': controlNav=='edit'}"><a (click)="selectNav('edit')">编辑脚本</a></li>
-                                    <li role="presentation" [ngClass]="{'active': controlNav=='history'}"><a (click)="selectNav('history')">查看历史</a></li>
-                                </ul>
-                            </h3>
-                        </div>
-                        <div *ngIf="selectedTestsample" class="panel-body">
-                            <div *ngIf="controlNav=='config'">
-                                <h3>{{selectedTestsample.name}}运行配置</h3>
-                                <form class="form-horizontal" role="form">
-                                    <div *ngIf="selectedTestsample" class="form-group col-md-offset-1 col-md-10">
-                                        <label for="config" class="control-label">运行参数</label>
-                                        <input [(ngModel)]="selectedTestsample.config" [ngModelOptions]="{standalone: true}"type="text" class="form-control" id="config" placeholder="monkey">
-                                    </div>
-                                    <div class="form-group col-md-offset-1 col-md-10">
-                                        <label >选择设备</label>
-                                        <select class="form-control" id="selectDevice">
-                                            <option *ngFor="let item of deviceList" id="item.id">{{item.id}}</option>
-                                        </select>
-
-                                    </div>
-                                    <div *ngIf="selectedDevice" class="form-group col-md-offset-1 col-md-10">
-                                        <label >完整参数(检查)</label>
-                                        <h4>adb shell -s {{selectedDevice.id}} monkey {{selectedTestsample.config}}</h4>
-                                    </div>
-                                    <div class="form-group col-md-offset-1 col-md-10">
-                                        <button type="button" class="btn btn-default" (click)="updateTestsample()">
-                                            保存
-                                        </button>
-                                        <button type="button" class="btn btn-primary" (click)="createTestcase()">
-                                            运行
-                                        </button>
-                                        <button type="button" class="btn btn-danger" (click)="deleteTestsample()">
-                                            删除
-                                        </button>
-                                    </div>
-                                </form>
-                            </div>
-                            <div *ngIf="controlNav=='edit'">
-                                <h3>{{selectedSample}}编辑脚本</h3>
-                                <form id="form-edit">
-                                    <div class="form-group">
-                                        <label for="nameEdit">用例描述</label>
-                                        <input type="text" class="form-control" id="nameEdit">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="actions">动作</label>
-                                        <textarea class="form-control" rows="15" id="actions">
-                                        </textarea>
-                                    </div>
-                                </form>
-                                <button id="btn-save" class="btn btn-default">保存
-                                </button>
-                                <button id="btn-confirm" class="btn btn-primary">运行
-                                </button>
-                            </div>
-                            <div *ngIf="controlNav=='history'">
-                                <div style="overFlow-y:scroll;width:100%;height: 510px" class="panel-body">
-                                    <div class="table-wrapper ">
-                                    <table class="table">
-                                        <thead>
-                                        <tr>
-                                            <th>
-                                                状态
-                                            </th>
-                                            <th>
-                                                创建日期
-                                            </th>
-                                            <th>
-                                                设备ID
-                                            </th>
-                                            <th>
-                                                结果
-                                            </th>
-                                            <th>
-                                                删除
-                                            </th>
-                                        </tr>
-                                        </thead>
-                                        <tbody *ngFor="let element of testrunnerList">
-                                        <tr>
-                                            <th>
-                                                <div *ngIf="element.state=='stop'">
-                                                    <button type="button" class="btn btn-warning">S</button>
-                                                </div>
-                                                <div *ngIf="element.state=='running'">
-                                                    <button type="button" class="btn btn-success">R</button>
-                                                </div>
-                                            </th>
-                                            <th>
-                                                <button type="button" class="btn btn-success">{{transDate(element.create_at)}}</button>
-                                            </th>
-                                            <th>
-                                                <button type="button" class="btn btn-info">{{element.deviceId}}</button>
-                                            </th>
-                                            <th>
-                                                <button type="button" class="btn btn-info" (click)="gotoDetail(element)">结果</button>
-                                            </th>
-                                            <th>
-                                                <button type="button" class="btn btn-danger">删除</button>
-                                            </th>
-                                        </tr>
-                                        </tbody>
-                                    </table>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
 
             </div>
         </div>
@@ -439,6 +353,59 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
                 <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="updateProject()">更新</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 添加某个版本Apk对话框-->
+<div id="modal_addApkVersion" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">添加{{projectName}}Apk版本</h4>
+            </div>
+            <div class="modal-body">
+                <form id="addApkVersion" class="form-horizontal">
+                    <div class="form-group">
+                        <label for="name2" class="col-sm-3 control-label">
+                            版本号
+                        </label>
+                        <div class="col-sm-9">
+                            <input [(ngModel)]="createVersion.version" [ngModelOptions]="{standalone: true}" type="text" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="describe2">
+                            版本描述
+                        </label>
+                        <div class="col-sm-9">
+                            <input [(ngModel)]="createVersion.describe" [ngModelOptions]="{standalone: true}" type="text" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="manager2">
+                            包名Package
+                        </label>
+                        <div class="col-sm-9">
+                            <input [(ngModel)]="createVersion.package" [ngModelOptions]="{standalone: true}" type="text" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="manager2">
+                            MainActivity
+                        </label>
+                        <div class="col-sm-9">
+                            <input [(ngModel)]="createVersion.activity" [ngModelOptions]="{standalone: true}" type="text" class="form-control">
+                        </div>
+                    </div>
+                    <hr align=right width=500 color=#987cb9 size=1>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="addApkVersion()">确定</button>
             </div>
         </div>
     </div>

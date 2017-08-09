@@ -1,0 +1,50 @@
+<div style="margin-top: 10px; margin-left: 10px;height:1000px;background: url(/images/backgroud.jpg);background-size: cover" >
+    <!--minicap-->
+    <div class="row">
+    <div style="width: 390px;float: left;">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">设备屏幕 360 x 640</h3>
+            </div>
+            <div style="height:690px;" class="panel-body" id="container">
+                <canvas id="canvas-device" width="360" height="640"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!--控制台-->
+    <div style="margin-left: 420px;width:900px">
+        <div class="panel panel-default" style="margin-bottom: 0px">
+            <div class="panel-heading">
+                <h3 class="panel-title">控制台</h3>
+            </div>
+            <div class="btn-group btn-group-justified" role="group" aria-label="...">
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-primary " id="btn-replay" style="border-radius : 0" (click)="fireAction()">单步执行</button>
+                </div>
+                <div class="btn-group " role="group">
+                    <button type="button" class="btn btn-danger " id="btn-replay-all" style="border-radius : 0" (click)="fireActions()">全部执行</button>
+                </div>
+                <div class="btn-group " role="group">
+                    <button type="button" class="btn btn-info " id="btn-replay-back" style="border-radius : 0" (click)="back()">返回</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel panel-default ">
+            <div class="panel-heading">
+                <h3 class="panel-title">动作</h3>
+            </div>
+            <div style="overFlow-y:scroll;width:100%;height: 605px" class="table-wrapper" id="action-table-wrapper">
+                <table class="table table-striped" id="action-table">
+                    <tbody id="actions">
+                    <tr *ngFor="let element of actionList">
+                        <td>{{element}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    </div>
+</div>

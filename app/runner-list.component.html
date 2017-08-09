@@ -1,18 +1,25 @@
-<div id="runner-list">
+<div id="runner-list" style="height:1000px;background: url(/images/backgroud.jpg);background-size: cover">
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-offset-1 col-md-10">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <div class="panel-title">
-                            运行列表
-                            <button style="margin-left: 60%;width: 50px" type="button" class="btn btn-success">R</button>
-                            Running
-                            <button style="width: 50px" type="button" class="btn btn-Warning">S</button>
-                            Stop
+                            <div class="row">
+                                <div class="col-md-2">
+                                    运行列表</div>
+                                <div class="col-md-offset-6 col-md-2">
+                                    <button type="button" class="btn btn-success">R</button>
+                                    Running
+                                </div>
+                                <div class="col-md-2">
+                                    <button class="btn btn-Warning">S</button>
+                                    Finished
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="panel-body">
+                    <div class="panel-body" style="overFlow-y:scroll;height: 850px">
 
                         <table class="table table-hover">
                             <thead>
@@ -63,14 +70,15 @@
                                     <div *ngIf="element.state=='stop'">
                                         <button type="button" class="btn btn-info" (click)="gotoResult(element)">结果</button>
 
-                                        <button href="#modal_delete" data-toggle="modal" type="button" class="btn btn-danger" (click)="deleteTest()">
+                                        <button href="#modal_delete" data-toggle="modal" type="button" class="btn btn-danger"
+                                                (click)="selectTestrunner(element)">
                                             删除
                                         </button>
 
                                     </div>
                                     <div *ngIf="element.state=='running'">
-                                        <button type="button" class="btn btn-info" (click)="gotoDetail(element)">查看运行</button>
-                                        <button type="button" class="btn btn-warning">停止</button>
+                                        <button type="button" class="btn btn-warning" (click)="gotoDetail(element)">查看运行详情</button>
+                                        <!--<button type="button" class="btn btn-warning">停止</button>-->
                                     </div>
                                 </th>
                             </tr>
@@ -104,7 +112,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="deleteTest()">确定</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="deleteTestrunner()">确定</button>
             </div>
         </div>
     </div>

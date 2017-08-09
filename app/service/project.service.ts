@@ -6,13 +6,16 @@ import {Headers, Http} from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 
 import {Project} from './project';
+import {Configuration} from './configuration'
 
 @Injectable()
 export class ProjectService{
 
     constructor(private http:Http){}
 
-    private url = 'http://localhost:8080';  //URL to nata server
+    // private url = 'http://localhost:8080';  //URL to nata server
+    private url = Configuration.url;
+
     private headers = new Headers({'Content-Type':'application/json'});
 
     /*获取项目列表*/

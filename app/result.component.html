@@ -1,19 +1,85 @@
-<h2>Result</h2>
+<div style="margin-top: 10px; margin-left: 10px;height:2000px;background: url(/images/backgroud.jpg);background-size: cover">
+    <div class = 'container-fluid' *ngIf="pageSelect==1">
+        <div class="row">
+            <div class="col-md-offset-1 col-md-10">
+                <img src="/images/logo.png" class="pull-left" alt="logo" width="80" height="80">
+                <h1 style="font-family: 'Andale Mono';color:yellow">NATA平台简介</h1>
+                <hr>
+                <blockquote><p>此帮助页主要是关于NATA平台的简单介绍与关于如何使用该平台的简单描述。</p></blockquote>
+                <p>
+                    NATA是NJU Android Test Automator的简称,顾名思义Nata致力于研究安卓自动化测试技术,并提升其效率。</p>
+                <p>
+                    Nata主要研究智能机控件遍历技术，即GUI自动化测试，该技术是Android应用测试研究领域重要组成部分，实现自动化测试技术的一个重要基础即是有效地获取智能机控件，并在此基础上进行测试。Nata主要研究两种类型的测试技术，一种是基于DFS深度遍历模型的有序遍历，一种是基于随机Monkey的无序遍历测试，遍历测试具有简单、高效的特点，为当今移动应用自动化测试技术发展的新趋势，而随机测试的随机测试序列很可能能够触发在一般操作序列中无法发现的应用错误, 常用于应用压测。
+                </p>
+                <p>    在安卓中，应用将自己的逻辑组织到Activity中，每个Activity代表一个UI界面,例如一个邮件App可能包括用户登录，邮件列表，阅读邮件和发送邮件等界面,每个App的Activity数量差异很大，从几个到几百个不等。每个Activity都包含了一系列用户可以与之交互的组件，Android为我们提供了一系列标准控件，例如按钮，文本框，开关，选择器等等。控件负责处理绑定于它身上的UI事件，如何点击，长按，输入，滑动等。
 
-<div id="main" style="height: 400px"></div>
+                    Nata测试的主要任务即尽可能多地遍历Activity并识别组成该Acitivity的控件以及发现尽可能多的错误情况，通过模拟用户行为触发绑定的UI事件，达到自动测试的效果，减少人工测试造成的时间损耗，并尽可能在测试过程中发现应用的问题，由开发人员迅速修正。
 
-<input type="file" file-model="myFile"/>
-<div class="col-md-12">
-    <img style="max-width:300px;max-height:300px;margin:0 auto;display:block;" />
+                </p>
+                <h3>技术路线</h3>
+                <p>
+                    在Nata的实现过程中我们会分别建立无序遍历工具和有序遍历工具，然后测试其对于Activity和控件的覆盖率.
+
+                    首先Nata需要建立安卓应用的测试模型即对安卓应用行为进行建模，安卓应用的GUI界面由一组相互关联的Activity组成，每个Activity由一组控件组成，每个控件上绑定了一些事件，用户通过和控件交互产生一系列事件，进而驱动页面跳转。因此我们需要建模的对象有Activity，Widget，Event，以及Action。
+                <p>
+                    对于有序遍历，我们认为DFS搜索算法最符合人类使用手机应用的习惯，因此使用DFS建立测试过程。在DFS探索过程中首先要获得当前界面的控件以及绑定的事件，然后通过从上到下按照页面控件排布的顺序依次触发控件所绑定的事件来对所有控件及事件进行完全的遍历，在触发控件后页面可能跳转到其他界面，此时遍历其他界面，遍历完成后回到当前界面继续遍历，直到根界面的控件全部遍历完成。最终遍历过程将会形成一个DFS遍历树，其节点为界面状态，边为导致状态发生改变的控件以及相应事件。
+                </p>
+                <p>
+                    对于无序遍历,最原始的随机测试可能会对界面进行任意的行为，如滑动，点击，输入，后退等一系列行为，它没有导向，行为的产生完全依靠随机事件。另一类的随机测试会对应用本身有一个基本的了解,例如他知道某些控件是处于不可用状态，因此不会尝试点击，我们甚至可以通过算法指导其选择行为以更好的契合我们的研究目标，例如我们希望在随机测试过程中尽可能多的发现新的Activity，那么我们可以让测试工具倾向于触发之前未被触发的事件，在整个测试的过程中控件被选择的概率随着后续探索的结果而动态改变。测试人员甚至可以自定义一些动作，让工具忽略特定的控件（如关机按钮）或执行特定的动作（如拖动控件）。
+                </p>
+                <img src="/images/helper/android-logo.png" style="width: 300px;height: 220px">
+                <img src="/images/helper/zte-logo.png" style="width: 300px;height: 220px">
+                <img src="/images/helper/zte-phone.png" style="width: 300px;height: 220px">
+
+            </div>
+        </div>
+    </div>
+
+    <div class = 'container-fluid' *ngIf="pageSelect==2">
+        <div class="row">
+            <div class="col-md-offset-1 col-md-10">
+                <img src="/images/logo.png" class="pull-left" alt="logo" width="80" height="80">
+                <h1 style="font-family: 'Andale Mono';color:yellow">设备管理与总览</h1>
+                <hr>
+                <blockquote><p>此帮助页主要是关于NATA平台的设备的管理与使用的说明</p></blockquote>
+                <p>
+                    NATA平台的设备方面主要是设备总览和设备管理两个模块</p>
+                <img src="/images/helper/device-nav.png" style="text-align: center">
+                <h2 style="color: #f0ad4e">设备管理</h2>
+                <blockquote><p>设备管理是将在线设备保存到数据的操作或者将数据库的设备信息删除。注意：只要将信息保留到数据库中的设备才可以在之后的
+                创建运行作为可选择的设备</p></blockquote>
+                <img src="/images/helper/device-manage.png" style="text-align: center">
+
+                <h2 style="color: #f0ad4e">设备总览</h2>
+                <p>最上方看到的是设备的总体状态，设备总数表示数据库保存的设备总数；在线设备表示当前连接的设备数目；忙设备表示当前正在运行的设备总数</p>
+                <img src="/images/helper/device-state.png">
+                <p>设备总览看到的是数据库的所有设备。点击某个特定的设备即可查看该设备的详细信息。</p>
+                <h2 style="color: #f0ad4e">设备详情</h2>
+                设备详情看到的是设备ID，
+                设备名称，
+                Android版本，
+                SDK版本，
+                分辨率，
+                CPU型号，
+                出厂商，
+                设备状态（Free表示看到的设备是处于非运行状态的）
+                <img src="/images/helper/device-overview.png">
+
+            </div>
+        </div>
+    </div>
+
+    <nav style="margin-left: 100px;margin-right: 100px" aria-label="...">
+        <ul class="pager">
+            <li class="previous" (click)="pagePre()"><a><span aria-hidden="true">&larr;</span> 上一页</a></li>
+            <li class="next" (click)="pageSucc()" ><a>下一页 <span aria-hidden="true">&rarr;</span></a></li>
+        </ul>
+    </nav>
 </div>
-
-<div >
-    <canvas id="canvas" style="border: 1px solid red;"></canvas>
-</div>
-
-<script>
-    /*jshint browser:true*/
-
-
-
-</script>
+<div *ngIf="pageSelect==2">设备篇</div>
+<div *ngIf="pageSelect==3">项目创建与更新</div>
+<div *ngIf="pageSelect==4">APK管理</div>
+<div *ngIf="pageSelect==5">测试计划与测试用例</div>
+<div *ngIf="pageSelect==6">创建测试运行</div>
+<div *ngIf="pageSelect==7">查看运行状态</div>
+<div *ngIf="pageSelect==8">录制脚本与回放脚本</div>

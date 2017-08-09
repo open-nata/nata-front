@@ -9,12 +9,15 @@ import 'rxjs/add/operator/toPromise';
 
 import {Testrunner} from './testrunner'
 import {Testsample} from './test.sample'
+import {Configuration} from './configuration'
 
 @Injectable()
 export class TestrunnerService{
 
     private headers = new Headers({'Content-type':'application/json'});
-    private url = 'http://localhost:8080';   //URL to nata-server
+
+    //private url = 'http://localhost:8080';   //URL to nata-server
+    private url = Configuration.url
 
     constructor(private http:Http){
     }
@@ -34,16 +37,16 @@ export class TestrunnerService{
         return this.http
             .post(_url,JSON.stringify(test),{headers:this.headers})
             .toPromise()
-            .then(res => res.json())
+            .then(res => res.json() as Testrunner)
             .catch(this.handleError)
     }
 
     /*删除一次测试运行*/
-    delete(testid:string):Promise<void>{
+    delete(testid:string):Promise<Testrunner>{
         const _url = `${this.url}/api/testrunner/${testid}`;
         return this.http.delete(_url,{headers:this.headers})
             .toPromise()
-            .then(()=>null)
+            .then(response => response.json() as Testrunner)
             .catch(this.handleError)
     }
 

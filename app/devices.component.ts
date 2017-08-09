@@ -70,17 +70,19 @@ export class DevicesComponent implements  OnInit{
     updateDevice(){
         const select = document.getElementById('selectDeviceTag') as HTMLSelectElement;
         const selectedIndex = select.selectedIndex;
-        console.log(selectedIndex);
+        //console.log(selectedIndex);
         this.selectedDevice.tag = this.deviceTagList[selectedIndex];
-        console.log(this.selectedDevice.tag);
+        //console.log(this.selectedDevice.tag);
         this.deviceService.updateDevice(this.selectedDevice);
     }
+
     /*添加设备信息：将一个设备的信息添加到数据库*/
     createDevice(device:OnlineDevice){
         this.deviceService.createDevice(device)
             .then(response =>{
-                console.log(response)
+                //console.log(response)
                 this.devices.push(response)
+
             },err=>{
                 alert("请检查设备是否存在")
             })
@@ -104,7 +106,7 @@ export class DevicesComponent implements  OnInit{
 
     /*选择并且查看设备详细信息*/
     showDetail(device:Device):void{
-        console.log(device.id)
+        //console.log(device.id)
         this.selectedDevice = device;
     }
 

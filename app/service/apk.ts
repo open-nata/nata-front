@@ -1,3 +1,9 @@
-/**
- * Created by ghj on 16-10-14.
- */
+/*Apk : a certain version */
+
+export class Apk{
+    name:string;
+    version:string;
+    package:string;
+    activity:string;
+    describe:string;
+}
